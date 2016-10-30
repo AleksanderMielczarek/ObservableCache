@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.github.aleksandermielczarek.observablecacheexample.ui.MainViewModel" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClickListener="@{() -> viewModel.clear()}"
+                android:text="Clear" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClickListener="@{() -> viewModel.testObservable()}"
+                android:text="Observable" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClickListener="@{() -> viewModel.testSingle()}"
+                android:text="Single" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClickListener="@{() -> viewModel.testCompletable()}"
+                android:text="Completable" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClickListener="@{() -> viewModel.testObservableError()}"
+                android:text="Observable error" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClickListener="@{() -> viewModel.testSingleError()}"
+                android:text="Single error" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClickListener="@{() -> viewModel.testCompletableError()}"
+                android:text="Completable error" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.result}" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</layout>
