@@ -21,6 +21,11 @@ abstract class ValueFromCache<T, S extends ValueInCacheAction<T>, U extends Valu
         return valueFromCache != null;
     }
 
+    @Nullable
+    public T get() {
+        return valueFromCache;
+    }
+
     public ValueFromCache<T, S, U> ifPresent(S valueInCacheAction) {
         if (isPresent()) {
             valueInCacheAction.action(valueFromCache);
@@ -42,23 +47,9 @@ abstract class ValueFromCache<T, S extends ValueInCacheAction<T>, U extends Valu
         return new ObservableFromCache<>(null, observableCache);
     }
 
-    public <V> ObservableFromCache<V> orElseGetObservable(String key, Class<V> observableClass) {
-        if (!isPresent()) {
-            return observableCache.getObservable(key, observableClass);
-        }
-        return new ObservableFromCache<>(null, observableCache);
-    }
-
     public <V> SingleFromCache<V> orElseGetSingle(String key) {
         if (!isPresent()) {
             return observableCache.getSingle(key);
-        }
-        return new SingleFromCache<>(null, observableCache);
-    }
-
-    public <V> SingleFromCache<V> orElseGetSingle(String key, Class<V> singleClass) {
-        if (!isPresent()) {
-            return observableCache.getSingle(key, singleClass);
         }
         return new SingleFromCache<>(null, observableCache);
     }
@@ -74,16 +65,8 @@ abstract class ValueFromCache<T, S extends ValueInCacheAction<T>, U extends Valu
         return observableCache.getObservable(key);
     }
 
-    public <V> ObservableFromCache<V> thanGetObservable(String key, Class<V> observableClass) {
-        return observableCache.getObservable(key, observableClass);
-    }
-
     public <V> SingleFromCache<V> thanGetSingle(String key) {
         return observableCache.getSingle(key);
-    }
-
-    public <V> SingleFromCache<V> thanGetSingle(String key, Class<V> singleClass) {
-        return observableCache.getSingle(key, singleClass);
     }
 
     public CompletableFromCache thanGetCompletable(String key) {

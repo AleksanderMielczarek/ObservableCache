@@ -10,7 +10,7 @@ import rx.Observable;
  * Created by Aleksander Mielczarek on 30.10.2016.
  */
 
-public class LruObservableCache extends ObservableCache {
+public final class LruObservableCache extends ObservableCache {
 
     public static final int DEFAULT_CACHE_SIZE = 16;
 

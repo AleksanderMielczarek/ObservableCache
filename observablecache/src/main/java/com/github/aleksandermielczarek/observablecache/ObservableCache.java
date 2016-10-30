@@ -74,20 +74,12 @@ public abstract class ObservableCache {
         return new ObservableFromCache<>(observableFromCache, this);
     }
 
-    public <T> ObservableFromCache<T> getObservable(String key, Class<T> observableClass) {
-        return getObservable(key);
-    }
-
     public <T> SingleFromCache<T> getSingle(String key) {
         Observable<T> observableFromCache = getFromCache(key);
         if (observableFromCache != null) {
             return new SingleFromCache<>(observableFromCache.toSingle(), this);
         }
         return new SingleFromCache<>(null, this);
-    }
-
-    public <T> SingleFromCache<T> getSingle(String key, Class<T> singleClass) {
-        return getSingle(key);
     }
 
     public CompletableFromCache getCompletable(String key) {

@@ -94,15 +94,15 @@ public class MainViewModel {
     }
 
     public void restoreObservables() {
-        observableCache.getObservable(OBSERVABLE_CACHE_KEY_OBSERVABLE, String.class)
+        observableCache.<String>getObservable(OBSERVABLE_CACHE_KEY_OBSERVABLE)
                 .ifPresent(this::testObservable)
-                .thanGetSingle(OBSERVABLE_CACHE_KEY_SINGLE, String.class)
+                .<String>thanGetSingle(OBSERVABLE_CACHE_KEY_SINGLE)
                 .ifPresent(this::testSingle)
                 .thanGetCompletable(OBSERVABLE_CACHE_KEY_COMPLETABLE)
                 .ifPresent(this::testCompletable)
-                .thanGetObservable(OBSERVABLE_CACHE_KEY_OBSERVABLE_ERROR, String.class)
+                .<String>thanGetObservable(OBSERVABLE_CACHE_KEY_OBSERVABLE_ERROR)
                 .ifPresent(this::testObservable)
-                .thanGetSingle(OBSERVABLE_CACHE_KEY_SINGLE_ERROR, String.class)
+                .<String>thanGetSingle(OBSERVABLE_CACHE_KEY_SINGLE_ERROR)
                 .ifPresent(this::testSingle)
                 .thanGetCompletable(OBSERVABLE_CACHE_KEY_COMPLETABLE_ERROR)
                 .ifPresent(this::testCompletable);

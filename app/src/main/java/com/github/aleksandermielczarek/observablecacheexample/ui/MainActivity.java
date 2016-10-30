@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Napkin.provideComponent(this, AppComponent.class).inject(this);
+        Napkin.<AppComponent>provideComponent(this).inject(this);
         mainViewModel.restoreState(state);
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setViewModel(mainViewModel);
