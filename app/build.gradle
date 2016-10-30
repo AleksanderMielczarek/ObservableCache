@@ -48,7 +48,7 @@ dependencies {
     //rx
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'io.reactivex:rxjava:1.2.1'
-    compile project(':observablecache')
+    compile project(':observable-cache-service')
 
     //utils
     apt 'org.androidannotations:androidannotations:4.1.0'

@@ -1,1 +1,1 @@
-include ':app', ':observablecacheservice', 'observablecache'
+include ':app', ':observable-cache-service', 'observable-cache'

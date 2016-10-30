@@ -40,5 +40,5 @@ dependencies {
     //support
     compile 'com.android.support:appcompat-v7:25.0.0'
 
-    compile project(':observablecache')
+    compile project(':observable-cache')
 }
