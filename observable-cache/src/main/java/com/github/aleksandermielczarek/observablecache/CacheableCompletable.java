@@ -6,7 +6,7 @@ import rx.Completable;
  * Created by Aleksander Mielczarek on 01.11.2016.
  */
 
-public class CacheableCompletable implements Completable.Transformer {
+public final class CacheableCompletable implements Completable.Transformer {
 
     private final String key;
     private final ObservableCache observableCache;

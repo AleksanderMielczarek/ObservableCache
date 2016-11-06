@@ -127,18 +127,13 @@ public class MainViewModel {
     }
 
     public void restoreObservables() {
-        observableCache.<String>getObservable(OBSERVABLE_CACHE_KEY_OBSERVABLE)
-                .ifPresent(this::testObservable)
-                .<String>thanGetSingle(OBSERVABLE_CACHE_KEY_SINGLE)
-                .ifPresent(this::testSingle)
-                .thanGetCompletable(OBSERVABLE_CACHE_KEY_COMPLETABLE)
-                .ifPresent(this::testCompletable)
-                .<String>thanGetObservable(OBSERVABLE_CACHE_KEY_OBSERVABLE_ERROR)
-                .ifPresent(this::testObservable)
-                .<String>thanGetSingle(OBSERVABLE_CACHE_KEY_SINGLE_ERROR)
-                .ifPresent(this::testSingle)
-                .thanGetCompletable(OBSERVABLE_CACHE_KEY_COMPLETABLE_ERROR)
-                .ifPresent(this::testCompletable);
+        observableCache.<String>getObservable(OBSERVABLE_CACHE_KEY_OBSERVABLE).ifPresent(this::testObservable);
+        observableCache.<String>getSingle(OBSERVABLE_CACHE_KEY_SINGLE).ifPresent(this::testSingle);
+        observableCache.getCompletable(OBSERVABLE_CACHE_KEY_COMPLETABLE).ifPresent(this::testCompletable);
+        observableCache.<String>getObservable(OBSERVABLE_CACHE_KEY_OBSERVABLE_ERROR).ifPresent(this::testObservable);
+        observableCache.<String>getSingle(OBSERVABLE_CACHE_KEY_SINGLE_ERROR).ifPresent(this::testSingle);
+        observableCache.getCompletable(OBSERVABLE_CACHE_KEY_COMPLETABLE_ERROR).ifPresent(this::testCompletable);
+
         cachedService.cachedObservable().ifPresent(this::testObservable);
         cachedService.cachedSingle().ifPresent(this::testSingle);
         cachedService.cachedCompletable().ifPresent(this::testCompletable);

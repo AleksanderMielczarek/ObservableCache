@@ -6,7 +6,7 @@ import rx.Single;
  * Created by Aleksander Mielczarek on 01.11.2016.
  */
 
-public class CacheableSingle<T> implements Single.Transformer<T, T> {
+public final class CacheableSingle<T> implements Single.Transformer<T, T> {
 
     private final String key;
     private final ObservableCache observableCache;

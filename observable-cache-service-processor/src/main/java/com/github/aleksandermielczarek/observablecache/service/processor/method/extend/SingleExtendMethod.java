@@ -1,5 +1,7 @@
 package com.github.aleksandermielczarek.observablecache.service.processor.method.extend;
 
+import com.github.aleksandermielczarek.observablecache.service.processor.api.method.extend.FromCacheMethod;
+
 /**
  * Created by Aleksander Mielczarek on 05.11.2016.
  */

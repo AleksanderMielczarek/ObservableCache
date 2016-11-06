@@ -1,4 +1,4 @@
-package com.github.aleksandermielczarek.observablecache.service.processor.method;
+package com.github.aleksandermielczarek.observablecache.service.processor.api.method;
 
 import com.google.common.collect.Lists;
 import com.squareup.javapoet.TypeSpec;

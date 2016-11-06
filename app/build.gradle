@@ -3,12 +3,13 @@ apply plugin: 'android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.0"
+    compileSdkVersion sdkVersion
+    buildToolsVersion buildToolsVersionVersion
+
     defaultConfig {
         applicationId "com.github.aleksandermielczarek.observablecacheexample"
-        minSdkVersion 16
-        targetSdkVersion 25
+        minSdkVersion minSdkVersionVersion
+        targetSdkVersion sdkVersion
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -32,30 +33,30 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     //test
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestCompile("com.android.support.test.espresso:espresso-core:${espressoCoreVersion}", {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    testCompile 'junit:junit:4.12'
+    testCompile "junit:junit:${junitVersion}"
 
     //support
-    compile 'com.android.support:appcompat-v7:25.0.0'
+    compile "com.android.support:appcompat-v7:${supportLibraryVersion}"
 
     //dagger
-    compile 'com.google.dagger:dagger:2.7'
-    apt 'com.google.dagger:dagger-compiler:2.7'
-    compile 'com.github.AleksanderMielczarek:Napkin:0.3.0'
+    compile "com.google.dagger:dagger:${daggerVersion}"
+    apt "com.google.dagger:dagger-compiler:${daggerVersion}"
+    compile "com.github.AleksanderMielczarek:Napkin:${napkinVersion}"
 
     //rx
-    compile 'io.reactivex:rxandroid:1.2.1'
-    compile 'io.reactivex:rxjava:1.2.1'
+    compile "io.reactivex:rxandroid:${rxandroidVersion}"
+    compile "io.reactivex:rxjava:${rxjavaVersion}"
     compile project(':observable-cache-service')
     apt project(':observable-cache-service-processor')
 
     //utils
-    apt 'org.androidannotations:androidannotations:4.1.0'
-    compile 'org.androidannotations:androidannotations-api:4.1.0'
-    compile 'org.parceler:parceler-api:1.1.6'
-    apt 'org.parceler:parceler:1.1.6'
+    apt "org.androidannotations:androidannotations:${androidannotationsVersion}"
+    compile "org.androidannotations:androidannotations-api:${androidannotationsVersion}"
+    compile "org.parceler:parceler-api:${parcelerVersion}"
+    apt "org.parceler:parceler:${parcelerVersion}"
 }
 
 apt {

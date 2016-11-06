@@ -1,6 +1,7 @@
-package com.github.aleksandermielczarek.observablecache.service.processor.method.extend;
+package com.github.aleksandermielczarek.observablecache.service.processor.api.method.extend;
 
-import com.github.aleksandermielczarek.observablecache.service.processor.method.base.BaseMethod;
+
+import com.github.aleksandermielczarek.observablecache.service.processor.api.method.base.BaseMethod;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
 
@@ -29,7 +30,7 @@ public interface FromCacheMethod extends ExtendMethod {
         if (!returnedElement.getQualifiedName().toString().contains(returnedType())) {
             return false;
         }
-        if (!returnedBaseType().equals(baseMethod.returnedType())) {
+        if (!returnedBaseType().contains(baseMethod.returnedType())) {
             return false;
         }
         return ExtendMethod.super.isExtendMethod(baseMethodElement, baseMethod, extendMethod, processingEnvironment);

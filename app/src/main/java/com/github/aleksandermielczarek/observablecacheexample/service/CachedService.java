@@ -38,5 +38,4 @@ public interface CachedService {
 
     CompletableFromCache cachedCompletableError();
 
-    boolean removeSingle();
 }

@@ -1,0 +1,12 @@
+apply plugin: 'java'
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile "com.squareup:javapoet:${javapoetVersion}"
+    compile "com.google.auto.service:auto-service:${autoServiceVersion}"
+    compile "com.google.guava:guava:${guavaVersion}"
+    compile "org.apache.commons:commons-lang3:${commonsLang3Version}"
+}

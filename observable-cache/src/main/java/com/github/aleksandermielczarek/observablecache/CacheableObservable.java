@@ -6,7 +6,7 @@ import rx.Observable;
  * Created by Aleksander Mielczarek on 01.11.2016.
  */
 
-public class CacheableObservable<T> implements Observable.Transformer<T, T> {
+public final class CacheableObservable<T> implements Observable.Transformer<T, T> {
 
     private final String key;
     private final ObservableCache observableCache;

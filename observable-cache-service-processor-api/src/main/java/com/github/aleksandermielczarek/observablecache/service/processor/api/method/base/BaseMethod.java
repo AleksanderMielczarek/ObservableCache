@@ -1,6 +1,7 @@
-package com.github.aleksandermielczarek.observablecache.service.processor.method.base;
+package com.github.aleksandermielczarek.observablecache.service.processor.api.method.base;
 
-import com.github.aleksandermielczarek.observablecache.service.processor.method.WritableMethod;
+
+import com.github.aleksandermielczarek.observablecache.service.processor.api.method.WritableMethod;
 import com.google.common.base.CaseFormat;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;

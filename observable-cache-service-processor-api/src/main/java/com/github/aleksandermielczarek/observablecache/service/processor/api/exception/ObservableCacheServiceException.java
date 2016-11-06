@@ -1,4 +1,4 @@
-package com.github.aleksandermielczarek.observablecache.service.processor.exception;
+package com.github.aleksandermielczarek.observablecache.service.processor.api.exception;
 
 /**
  * Created by Aleksander Mielczarek on 30.10.2016.

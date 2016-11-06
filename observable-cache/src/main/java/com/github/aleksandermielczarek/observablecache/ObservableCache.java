@@ -2,6 +2,8 @@ package com.github.aleksandermielczarek.observablecache;
 
 import android.support.annotation.Nullable;
 
+import com.github.aleksandermielczarek.observablecache.api.AbstarctObservableCache;
+
 import rx.Completable;
 import rx.Observable;
 import rx.Single;
@@ -11,17 +13,9 @@ import rx.functions.Action0;
  * Created by Aleksander Mielczarek on 29.10.2016.
  */
 
-public abstract class ObservableCache {
+public abstract class ObservableCache extends AbstarctObservableCache {
 
     public abstract <T> void cache(String key, Observable<T> observable);
-
-    public abstract boolean clear();
-
-    public abstract boolean remove(String key);
-
-    public abstract int size();
-
-    public abstract boolean exists(String key);
 
     @Nullable
     protected abstract <T> Observable<T> getFromCache(String key);
@@ -36,10 +30,6 @@ public abstract class ObservableCache {
         Observable<?> observable = completable.toObservable();
         cache(key, observable);
         return observable.toCompletable();
-    }
-
-    public boolean isEmpty() {
-        return size() == 0;
     }
 
     public <T> CacheableObservable<T> cacheObservable(String key) {

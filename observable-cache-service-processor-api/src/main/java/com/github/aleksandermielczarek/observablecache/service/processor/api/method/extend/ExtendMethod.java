@@ -1,7 +1,8 @@
-package com.github.aleksandermielczarek.observablecache.service.processor.method.extend;
+package com.github.aleksandermielczarek.observablecache.service.processor.api.method.extend;
 
-import com.github.aleksandermielczarek.observablecache.service.processor.method.WritableMethod;
-import com.github.aleksandermielczarek.observablecache.service.processor.method.base.BaseMethod;
+
+import com.github.aleksandermielczarek.observablecache.service.processor.api.method.WritableMethod;
+import com.github.aleksandermielczarek.observablecache.service.processor.api.method.base.BaseMethod;
 
 import java.util.List;
 
