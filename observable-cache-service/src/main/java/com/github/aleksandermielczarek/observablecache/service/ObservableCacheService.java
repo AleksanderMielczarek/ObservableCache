@@ -14,7 +14,7 @@ public final class ObservableCacheService extends AbstractObservableCacheService
     }
 
     @Override
-    public String creatorClassImpl() {
+    protected String creatorClassImpl() {
         return "com.github.aleksandermielczarek.observablecache.service.ObservableCacheServiceCreatorImpl";
     }
 

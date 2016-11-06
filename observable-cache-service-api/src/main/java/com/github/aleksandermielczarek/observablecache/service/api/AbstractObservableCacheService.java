@@ -29,7 +29,7 @@ public abstract class AbstractObservableCacheService<T extends AbstarctObservabl
         }
     }
 
-    public abstract String creatorClassImpl();
+    protected abstract String creatorClassImpl();
 
     public <T> T createObservableCacheService(Class<T> observableCacheServiceClass) {
         return observableCacheServiceCreator.createObservableCacheService(observableCacheServiceClass, observableCache);
