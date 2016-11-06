@@ -124,7 +124,7 @@ ObservableCache observableCache = MapObservableCache.newInstance();
 ### Observable Cache Service
 
 Using ObservableCache requires from developer writing unique keys for cached Observables. This can be 
-error prone and that's why additional layer can be used. instead of directly using ObservableCache 
+error prone and that's why additional layer can be used. Instead of directly using ObservableCache 
 and manually manipulating keys, Observable Cache Service generate classes from declared interfaces which
 internally assures that all keys are unique.  
 
