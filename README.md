@@ -206,13 +206,13 @@ Keys are generated based on method names:
 
 - key value is based on method name that takes 0 arguments and returns CacheableObservable<T>, 
 CacheableSingle<T> or CacheableCompletable
-- method that that retrieves value from cache takes 0 arguments and returns ObservableFromCache<T>, 
+- method that retrieves value from cache takes 0 arguments and returns ObservableFromCache<T>, 
 SingleFromCache<T> or CompletableFromCache<T>. Name of this method must be the same as method for 
 caching values + word 'cached': 
     - cache: 'testObservable()', retrieve: '**cached**TestObservable()'
     - cache: 'testObservable()', retrieve: 'test**Cached**Observable()'
     - cache: 'testObservable()', retrieve: 'testObservable**Cached**()'
-- method that that removes value from cache takes 0 arguments and returns boolean.Name of this method 
+- method that removes value from cache takes 0 arguments and returns boolean.Name of this method 
 must be the same as method for caching values + word 'remove': 
     - cache: 'testObservable()', remove: '**remove**TestObservable()'
     - cache: 'testObservable()', remove: 'test**Remove**Observable()'
