@@ -59,6 +59,42 @@
                 android:onClickListener="@{() -> viewModel.testCompletableError()}"
                 android:text="Completable error" />
 
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClickListener="@{() -> viewModel.testServiceObservable()}"
+                android:text="Service Observable" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClickListener="@{() -> viewModel.testServiceSingle()}"
+                android:text="Service Single" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClickListener="@{() -> viewModel.testServiceCompletable()}"
+                android:text="Service Completable" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClickListener="@{() -> viewModel.testServiceObservableError()}"
+                android:text="Service Observable error" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClickListener="@{() -> viewModel.testServiceSingleError()}"
+                android:text="Service Single error" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClickListener="@{() -> viewModel.testServiceCompletableError()}"
+                android:text="Service Completable error" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

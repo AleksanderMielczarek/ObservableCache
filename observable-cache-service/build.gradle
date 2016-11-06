@@ -41,4 +41,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.0.0'
 
     compile project(':observable-cache')
+    compile project(':observable-cache-service-annotations')
 }

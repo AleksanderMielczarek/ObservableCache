@@ -42,31 +42,16 @@ public abstract class ObservableCache {
         return size() == 0;
     }
 
-    public <T> Observable.Transformer<T, T> cacheObservable(final String key) {
-        return new Observable.Transformer<T, T>() {
-            @Override
-            public Observable<T> call(Observable<T> upstream) {
-                return cacheObservable(key, upstream);
-            }
-        };
+    public <T> CacheableObservable<T> cacheObservable(String key) {
+        return new CacheableObservable<>(key, this);
     }
 
-    public Completable.Transformer cacheCompletable(final String key) {
-        return new Completable.Transformer() {
-            @Override
-            public Completable call(Completable upstream) {
-                return cacheCompletable(key, upstream);
-            }
-        };
+    public CacheableCompletable cacheCompletable(String key) {
+        return new CacheableCompletable(key, this);
     }
 
-    public <T> Single.Transformer<T, T> cacheSingle(final String key) {
-        return new Single.Transformer<T, T>() {
-            @Override
-            public Single<T> call(Single<T> upstream) {
-                return cacheSingle(key, upstream);
-            }
-        };
+    public <T> CacheableSingle<T> cacheSingle(String key) {
+        return new CacheableSingle<>(key, this);
     }
 
     public <T> ObservableFromCache<T> getObservable(String key) {
@@ -90,7 +75,7 @@ public abstract class ObservableCache {
         return new CompletableFromCache(null, this);
     }
 
-    private <T> Observable<T> cacheObservable(final String key, Observable<T> observable) {
+    <T> Observable<T> cacheObservable(final String key, Observable<T> observable) {
         Observable<T> cached = observable.cache().doOnTerminate(new Action0() {
             @Override
             public void call() {
@@ -101,13 +86,13 @@ public abstract class ObservableCache {
         return cached;
     }
 
-    private <T> Single<T> cacheSingle(String key, Single<T> single) {
+    <T> Single<T> cacheSingle(String key, Single<T> single) {
         Observable<T> observable = single.toObservable();
         Observable<T> cachedObservable = cacheObservable(key, observable);
         return cachedObservable.toSingle();
     }
 
-    private Completable cacheCompletable(String key, Completable completable) {
+    Completable cacheCompletable(String key, Completable completable) {
         Observable<?> observable = completable.toObservable();
         Observable<?> cachedObservable = cacheObservable(key, observable);
         return cachedObservable.toCompletable();

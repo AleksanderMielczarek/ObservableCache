@@ -1,5 +1,7 @@
 package com.github.aleksandermielczarek.observablecacheexample.service;
 
+import android.util.Log;
+
 import java.util.concurrent.TimeUnit;
 
 import rx.Completable;
@@ -17,7 +19,7 @@ public class ObservableService {
 
     public Observable<String> observable() {
         return Observable.fromCallable(() -> "observable")
-                .delay(15, TIME_UNIT);
+                .delay(DELAY, TIME_UNIT);
     }
 
     public Single<String> single() {
@@ -33,19 +35,19 @@ public class ObservableService {
     public Observable<String> observableError() {
         return observable().doOnNext(observable -> {
             throw new IllegalArgumentException("observableError");
-        });
+        }).doOnError(throwable -> Log.e("ERROR", throwable.getMessage()));
     }
 
     public Single<String> singleError() {
         return single().doOnSuccess(single -> {
             throw new IllegalArgumentException("singleError");
-        });
+        }).doOnError(throwable -> Log.e("ERROR", throwable.getMessage()));
     }
 
     public Completable completableError() {
         return completable().doOnEach(completable -> {
             throw new IllegalArgumentException("completableError");
-        });
+        }).doOnError(throwable -> Log.e("ERROR", throwable.getMessage()));
     }
 
 }

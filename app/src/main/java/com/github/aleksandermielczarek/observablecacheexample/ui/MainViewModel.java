@@ -4,6 +4,7 @@ import android.databinding.ObservableField;
 import android.support.annotation.Nullable;
 
 import com.github.aleksandermielczarek.observablecache.ObservableCache;
+import com.github.aleksandermielczarek.observablecacheexample.service.CachedService;
 import com.github.aleksandermielczarek.observablecacheexample.service.ObservableService;
 
 import org.parceler.Parcel;
@@ -34,12 +35,14 @@ public class MainViewModel {
 
     private final ObservableService observableService;
     private final ObservableCache observableCache;
+    private final CachedService cachedService;
     private final CompositeSubscription subscriptions = new CompositeSubscription();
 
     @Inject
-    public MainViewModel(ObservableService observableService, ObservableCache observableCache) {
+    public MainViewModel(ObservableService observableService, ObservableCache observableCache, CachedService cachedService) {
         this.observableService = observableService;
         this.observableCache = observableCache;
+        this.cachedService = cachedService;
     }
 
     public void testObservable() {
@@ -70,6 +73,36 @@ public class MainViewModel {
     public void testCompletableError() {
         testCompletable(observableService.completableError()
                 .compose(observableCache.cacheCompletable(OBSERVABLE_CACHE_KEY_COMPLETABLE_ERROR)));
+    }
+
+    public void testServiceObservable() {
+        testObservable(observableService.observable()
+                .compose(cachedService.observable()));
+    }
+
+    public void testServiceSingle() {
+        testSingle(observableService.single()
+                .compose(cachedService.single()));
+    }
+
+    public void testServiceCompletable() {
+        testCompletable(observableService.completable()
+                .compose(cachedService.completable()));
+    }
+
+    public void testServiceObservableError() {
+        testObservable(observableService.observableError()
+                .compose(cachedService.observableError()));
+    }
+
+    public void testServiceSingleError() {
+        testSingle(observableService.singleError()
+                .compose(cachedService.singleError()));
+    }
+
+    public void testServiceCompletableError() {
+        testCompletable(observableService.completableError()
+                .compose(cachedService.completableError()));
     }
 
     private void testObservable(Observable<String> testObservable) {
@@ -106,6 +139,12 @@ public class MainViewModel {
                 .ifPresent(this::testSingle)
                 .thanGetCompletable(OBSERVABLE_CACHE_KEY_COMPLETABLE_ERROR)
                 .ifPresent(this::testCompletable);
+        cachedService.cachedObservable().ifPresent(this::testObservable);
+        cachedService.cachedSingle().ifPresent(this::testSingle);
+        cachedService.cachedCompletable().ifPresent(this::testCompletable);
+        cachedService.cachedObservableError().ifPresent(this::testObservable);
+        cachedService.cachedSingleError().ifPresent(this::testSingle);
+        cachedService.cachedCompletableError().ifPresent(this::testCompletable);
     }
 
     public void clear() {
