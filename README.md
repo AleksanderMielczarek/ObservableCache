@@ -1,4 +1,5 @@
 [![](https://jitpack.io/v/AleksanderMielczarek/ObservableCache.svg)](https://jitpack.io/#AleksanderMielczarek/ObservableCache)
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-ObservableCache-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/4628)
 
 # ObservableCache
 
