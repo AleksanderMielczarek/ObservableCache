@@ -15,7 +15,7 @@ import dagger.Provides;
  */
 @Module
 @AppScope
-public class AppModule {
+public class MainModule {
 
     @Provides
     @AppScope

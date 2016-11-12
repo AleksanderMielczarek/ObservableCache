@@ -3,6 +3,7 @@ package com.github.aleksandermielczarek.observablecacheexample;
 import android.app.Application;
 
 import com.github.aleksandermielczarek.napkin.ComponentProvider;
+import com.github.aleksandermielczarek.napkin.module.AppModule;
 import com.github.aleksandermielczarek.observablecacheexample.component.AppComponent;
 import com.github.aleksandermielczarek.observablecacheexample.component.DaggerAppComponent;
 
@@ -17,7 +18,9 @@ public class ObservableCacheApplication extends Application implements Component
     @Override
     public void onCreate() {
         super.onCreate();
-        appComponent = DaggerAppComponent.create();
+        appComponent = DaggerAppComponent.builder()
+                .appModule(new AppModule(this))
+                .build();
     }
 
     @Override

@@ -10,8 +10,8 @@ android {
         applicationId "com.github.aleksandermielczarek.observablecacheexample"
         minSdkVersion minSdkVersionVersion
         targetSdkVersion sdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode versionMajor * 1000000 + versionMinor * 10000 + versionFix * 100
+        versionName "$versionMajor.$versionMinor.$versionFix"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     dataBinding {
@@ -33,30 +33,30 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     //test
-    androidTestCompile("com.android.support.test.espresso:espresso-core:${espressoCoreVersion}", {
+    androidTestCompile("com.android.support.test.espresso:espresso-core:$espressoCoreVersion", {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    testCompile "junit:junit:${junitVersion}"
+    testCompile "junit:junit:$junitVersion"
 
     //support
-    compile "com.android.support:appcompat-v7:${supportLibraryVersion}"
+    compile "com.android.support:appcompat-v7:$supportLibraryVersion"
 
     //dagger
-    compile "com.google.dagger:dagger:${daggerVersion}"
-    apt "com.google.dagger:dagger-compiler:${daggerVersion}"
-    compile "com.github.AleksanderMielczarek:Napkin:${napkinVersion}"
+    compile "com.google.dagger:dagger:$daggerVersion"
+    apt "com.google.dagger:dagger-compiler:$daggerVersion"
+    compile "com.github.AleksanderMielczarek.Napkin:module:$napkinVersion"
 
     //rx
-    compile "io.reactivex:rxandroid:${rxandroidVersion}"
-    compile "io.reactivex:rxjava:${rxjavaVersion}"
+    compile "io.reactivex:rxandroid:$rxandroidVersion"
+    compile "io.reactivex:rxjava:$rxjavaVersion"
     compile project(':observable-cache-service')
     apt project(':observable-cache-service-processor')
 
     //utils
-    apt "org.androidannotations:androidannotations:${androidannotationsVersion}"
-    compile "org.androidannotations:androidannotations-api:${androidannotationsVersion}"
-    compile "org.parceler:parceler-api:${parcelerVersion}"
-    apt "org.parceler:parceler:${parcelerVersion}"
+    apt "org.androidannotations:androidannotations:$androidannotationsVersion"
+    compile "org.androidannotations:androidannotations-api:$androidannotationsVersion"
+    compile "org.parceler:parceler-api:$parcelerVersion"
+    apt "org.parceler:parceler:$parcelerVersion"
 }
 
 apt {

@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.github.aleksandermielczarek.napkin.Napkin;
+import com.github.aleksandermielczarek.napkin.module.ActivityModule;
 import com.github.aleksandermielczarek.observablecacheexample.R;
 import com.github.aleksandermielczarek.observablecacheexample.component.AppComponent;
 import com.github.aleksandermielczarek.observablecacheexample.databinding.ActivityMainBinding;
@@ -30,7 +31,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Napkin.<AppComponent>provideComponent(this).inject(this);
+        Napkin.<AppComponent>provideComponent(this)
+                .with(new ActivityModule(this))
+                .inject(this);
         mainViewModel.restoreState(state);
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setViewModel(mainViewModel);

@@ -1,11 +1,7 @@
 ext {
-    apiVersionMajor = 1
-    apiVersionMinor = 0
-    apiVersionFix = 0
-
-    cacheVersionMajor = 1
-    cacheVersionMinor = 0
-    cacheVersionFix = 0
+    versionMajor = 1
+    versionMinor = 0
+    versionFix = 0
 
     minSdkVersionVersion = 16
     sdkVersion = 25
@@ -20,14 +16,14 @@ ext {
     espressoCoreVersion = '2.2.2'
     junitVersion = '4.12'
     supportLibraryVersion = '25.0.0'
-    guavaVersion = '19.0'
+    guavaVersion = '20.0'
     daggerVersion = '2.7'
-    napkinVersion = '0.3.0'
+    napkinVersion = '0.5.0'
     rxandroidVersion = '1.2.1'
-    rxjavaVersion = '1.2.1'
+    rxjavaVersion = '1.2.2'
     androidannotationsVersion = '4.1.0'
     parcelerVersion = '1.1.6'
     commonsLang3Version = '3.5'
     autoServiceVersion = '1.0-rc2'
-    javapoetVersion = '1.7.0'
+    javapoetVersion = '1.8.0'
 }

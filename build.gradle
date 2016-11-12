@@ -10,11 +10,11 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:${toolsBuildGradleVersion}"
-        classpath "com.neenbedankt.gradle.plugins:android-apt:${androidAptVersion}"
-        classpath "me.tatarka:gradle-retrolambda:${gradleRetrolambdaVersion}"
-        classpath "com.github.dcendents:android-maven-gradle-plugin:${androidMavenGradlePluginVersion}"
-        classpath "com.github.ben-manes:gradle-versions-plugin:${gradleVersionsPluginVersion}"
+        classpath "com.android.tools.build:gradle:$toolsBuildGradleVersion"
+        classpath "com.neenbedankt.gradle.plugins:android-apt:$androidAptVersion"
+        classpath "me.tatarka:gradle-retrolambda:$gradleRetrolambdaVersion"
+        classpath "com.github.dcendents:android-maven-gradle-plugin:$androidMavenGradlePluginVersion"
+        classpath "com.github.ben-manes:gradle-versions-plugin:$gradleVersionsPluginVersion"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
