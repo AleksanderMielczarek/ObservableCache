@@ -44,7 +44,10 @@ dependencies {
     //dagger
     compile "com.google.dagger:dagger:$daggerVersion"
     apt "com.google.dagger:dagger-compiler:$daggerVersion"
-    compile "com.github.AleksanderMielczarek.Napkin:module:$napkinVersion"
+    compile "com.github.AleksanderMielczarek.Napkin:napkin:$napkinVersion@aar"
+    compile "com.github.AleksanderMielczarek.Napkin:module:$napkinVersion@aar"
+    compile "com.github.AleksanderMielczarek.Napkin:scope:$napkinVersion"
+    compile "com.github.AleksanderMielczarek.Napkin:qualifier:$napkinVersion"
 
     //rx
     compile "io.reactivex:rxandroid:$rxandroidVersion"
