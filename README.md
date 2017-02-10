@@ -34,7 +34,7 @@ Add the dependency
 
 ```groovy
 dependencies {
-    compile 'com.github.AleksanderMielczarek.ObservableCache:observable-cache:1.0.0'
+    compile 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-1:1.1.0'
 }
 ```
 
@@ -137,8 +137,8 @@ Add to the dependencies
 
 ```groovy
 dependencies {
-    compile 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-service:1.0.0'
-    apt 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-service-processor:1.0.0'
+    compile 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-1-service:1.1.0'
+    apt 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-service-1-processor:1.1.0'
 }
 ```
 
@@ -221,11 +221,73 @@ must be the same as method for caching values + word 'remove':
       
 ## RxJava 2.x
 
-Currently library doesn't support RxJava 2.x.
+RxJava 2 usage is very similar to RxJava 1.
+
+New types:
+
+- caching Flowable<T>:
+```java
+CacheableFlowable<T> cachable = observableCache.cacheFlowable(KEY);
+```
+- caching Maybe<T>:
+```java
+CacheableMaybe<T> cachable = observableCache.cacheMaybe(KEY);
+```
+- retrieve Flowable<T>:
+```java
+FlowableFromCache<T> fromCache = observableCache.<T>getFlowable(KEY);
+```
+- retrieve Maybe<T>:
+```java
+MaybeFromCache<T> fromCache = observableCache.<T>getMaybe(KEY);
+```
+
+### Observable Cache
+
+#### Usage
+
+Add it in your root build.gradle at the end of repositories:
+
+```groovy
+allprojects {
+	repositories {
+        ...
+        maven { url "https://jitpack.io" }
+    }
+}
+```
+
+Add the dependency
+
+```groovy
+dependencies {
+    compile 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-2:1.1.0'
+}
+```
+
+### Observable Cache Service
+
+#### Usage
+
+Add it in your root build.gradle at the end of repositories:
+
+Add to the dependencies
+
+```groovy
+dependencies {
+    compile 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-2-service:1.1.0'
+    apt 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-service-2-processor:1.1.0'
+}
+```
 
 ## Changelog
 
-### 1.0.0 (2016-11-06)
+### 1.1.0 (2017-02-10)
+
+- add RxJava 2.x support
+- rename RxJava 1.x modules
+
+### 1.1.0 (2016-11-06)
 
 - add generator for caching interface
 
