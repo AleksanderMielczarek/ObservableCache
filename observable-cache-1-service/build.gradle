@@ -34,7 +34,7 @@ dependencies {
     //support
     compile "com.android.support:appcompat-v7:$supportLibraryVersion"
 
-    compile project(':observable-cache')
+    compile project(':observable-cache-1')
     compile project(':observable-cache-service-api')
-    compile project(':observable-cache-service-annotations')
+    compile project(':observable-cache-1-service-annotations')
 }

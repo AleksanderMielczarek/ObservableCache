@@ -55,8 +55,8 @@ dependencies {
     //rx
     compile "io.reactivex:rxandroid:$rxandroidVersion"
     compile "io.reactivex:rxjava:$rxjavaVersion"
-    apt project(':observable-cache-service-processor')
-    compile project(':observable-cache-service')
+    apt project(':observable-cache-1-service-processor')
+    compile project(':observable-cache-1-service')
 
     //rx2
     compile "io.reactivex.rxjava2:rxandroid:$rxandroid2Version"

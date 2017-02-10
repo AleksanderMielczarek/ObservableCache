@@ -8,6 +8,6 @@ targetCompatibility = "1.8"
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile project(':observable-cache-service-annotations')
+    compile project(':observable-cache-1-service-annotations')
     compile project(':observable-cache-service-processor-api')
 }
