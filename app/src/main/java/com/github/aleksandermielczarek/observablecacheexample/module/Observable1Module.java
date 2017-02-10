@@ -4,8 +4,8 @@ import com.github.aleksandermielczarek.napkin.scope.AppScope;
 import com.github.aleksandermielczarek.observablecache.LruObservableCache;
 import com.github.aleksandermielczarek.observablecache.ObservableCache;
 import com.github.aleksandermielczarek.observablecache.service.ObservableCacheService;
-import com.github.aleksandermielczarek.observablecacheexample.service.CachedService;
-import com.github.aleksandermielczarek.observablecacheexample.service.ObservableService;
+import com.github.aleksandermielczarek.observablecacheexample.service.Cached1Service;
+import com.github.aleksandermielczarek.observablecacheexample.service.Observable1Service;
 
 import dagger.Module;
 import dagger.Provides;
@@ -15,7 +15,7 @@ import dagger.Provides;
  */
 @Module
 @AppScope
-public class MainModule {
+public class Observable1Module {
 
     @Provides
     @AppScope
@@ -25,8 +25,8 @@ public class MainModule {
 
     @Provides
     @AppScope
-    ObservableService provideObservableService() {
-        return new ObservableService();
+    Observable1Service provideObservableService() {
+        return new Observable1Service();
     }
 
     @Provides
@@ -37,7 +37,7 @@ public class MainModule {
 
     @Provides
     @AppScope
-    CachedService provideCachedService(ObservableCacheService observableCacheService) {
-        return observableCacheService.createObservableCacheService(CachedService.class);
+    Cached1Service provideCachedService(ObservableCacheService observableCacheService) {
+        return observableCacheService.createObservableCacheService(Cached1Service.class);
     }
 }

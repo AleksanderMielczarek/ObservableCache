@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="com.github.aleksandermielczarek.observablecacheexample.ui.MainViewModel" />
+            type="com.github.aleksandermielczarek.observablecacheexample.ui.Observable1ViewModel" />
     </data>
 
     <ScrollView
@@ -16,6 +16,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClickListener="@{() -> viewModel.startObservable2Example()}"
+                android:text="Start Observable 2 Example" />
 
             <Button
                 android:layout_width="match_parent"

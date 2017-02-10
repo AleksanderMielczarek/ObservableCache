@@ -6,10 +6,10 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.github.aleksandermielczarek.napkin.Napkin;
-import com.github.aleksandermielczarek.napkin.module.ActivityModule;
+import com.github.aleksandermielczarek.napkin.module.NapkinActivityModule;
 import com.github.aleksandermielczarek.observablecacheexample.R;
 import com.github.aleksandermielczarek.observablecacheexample.component.AppComponent;
-import com.github.aleksandermielczarek.observablecacheexample.databinding.ActivityMainBinding;
+import com.github.aleksandermielczarek.observablecacheexample.databinding.ActivityObservable1Binding;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.InstanceState;
@@ -20,40 +20,40 @@ import javax.inject.Inject;
  * Created by Aleksander Mielczarek on 30.10.2016.
  */
 @EActivity
-public class MainActivity extends AppCompatActivity {
+public class Observable1Activity extends AppCompatActivity {
 
     @InstanceState
-    protected MainViewModel.State state;
+    protected Observable1ViewModel.State state;
 
     @Inject
-    protected MainViewModel mainViewModel;
+    protected Observable1ViewModel observable1ViewModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Napkin.<AppComponent>provideComponent(this)
-                .with(new ActivityModule(this))
+        Napkin.<AppComponent>provideAppComponent(this)
+                .with(new NapkinActivityModule(this))
                 .inject(this);
-        mainViewModel.restoreState(state);
-        ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        binding.setViewModel(mainViewModel);
+        observable1ViewModel.restoreState(state);
+        ActivityObservable1Binding binding = DataBindingUtil.setContentView(this, R.layout.activity_observable1);
+        binding.setViewModel(observable1ViewModel);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        state = mainViewModel.saveState();
+        state = observable1ViewModel.saveState();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        mainViewModel.restoreObservables();
+        observable1ViewModel.restoreObservables();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mainViewModel.unsubscribe();
+        observable1ViewModel.unsubscribe();
     }
 }

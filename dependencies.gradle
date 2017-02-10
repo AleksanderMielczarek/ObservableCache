@@ -21,6 +21,8 @@ ext {
     napkinVersion = '0.7.0'
     rxandroidVersion = '1.2.1'
     rxjavaVersion = '1.2.6'
+    rxandroid2Version = '2.0.1'
+    rxjava2Version = '2.0.5'
     androidannotationsVersion = '4.2.0'
     parcelerVersion = '1.1.6'
     commonsLang3Version = '3.5'

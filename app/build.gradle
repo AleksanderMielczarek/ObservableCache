@@ -27,6 +27,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
 }
 
 dependencies {
@@ -52,8 +55,14 @@ dependencies {
     //rx
     compile "io.reactivex:rxandroid:$rxandroidVersion"
     compile "io.reactivex:rxjava:$rxjavaVersion"
-    compile project(':observable-cache-service')
     apt project(':observable-cache-service-processor')
+    compile project(':observable-cache-service')
+
+    //rx2
+    compile "io.reactivex.rxjava2:rxandroid:$rxandroid2Version"
+    compile "io.reactivex.rxjava2:rxjava:$rxjava2Version"
+    apt project(':observable-cache-2-service-processor')
+    compile project(':observable-cache-2-service')
 
     //utils
     apt "org.androidannotations:androidannotations:$androidannotationsVersion"

@@ -1,0 +1,13 @@
+apply plugin: 'java'
+apply plugin: 'com.github.dcendents.android-maven'
+
+group = 'com.github.AleksanderMielczarek'
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile project(':observable-cache-2-service-annotations')
+    compile project(':observable-cache-service-processor-api')
+}

@@ -12,7 +12,7 @@ import com.github.aleksandermielczarek.observablecache.service.annotations.Obser
  * Created by Aleksander Mielczarek on 30.10.2016.
  */
 @ObservableCacheService
-public interface CachedService {
+public interface Cached1Service {
 
     CacheableObservable<String> observable();
 
