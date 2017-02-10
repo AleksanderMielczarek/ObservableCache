@@ -201,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
 }
 ```
 
-#### More information 
+### More information
 
 Keys are generated based on method names:
 
@@ -218,7 +218,15 @@ must be the same as method for caching values + word 'remove':
     - cache: 'testObservable()', remove: '**remove**TestObservable()'
     - cache: 'testObservable()', remove: 'test**Remove**Observable()'
     - cache: 'testObservable()', remove: 'testObservable**Remove**()'
-      
+
+### ProGuard
+
+Add following line:
+
+```pro
+-keep class com.github.aleksandermielczarek.observablecache.service.ObservableCacheServiceCreatorImpl { *; }
+```
+
 ## RxJava 2.x
 
 RxJava 2 usage is very similar to RxJava 1.
@@ -279,6 +287,15 @@ dependencies {
     apt 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-service-2-processor:1.1.0'
 }
 ```
+
+### ProGuard
+
+Add following line:
+
+```pro
+-keep class com.github.aleksandermielczarek.observablecache2.service.ObservableCacheServiceCreatorImpl { *; }
+```
+
 
 ## Changelog
 
