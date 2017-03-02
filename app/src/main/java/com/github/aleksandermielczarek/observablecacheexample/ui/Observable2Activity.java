@@ -1,9 +1,7 @@
 package com.github.aleksandermielczarek.observablecacheexample.ui;
 
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 
 import com.github.aleksandermielczarek.napkin.Napkin;
 import com.github.aleksandermielczarek.napkin.module.NapkinActivityModule;
@@ -20,7 +18,7 @@ import javax.inject.Inject;
  * Created by Aleksander Mielczarek on 10.02.2017.
  */
 @EActivity
-public class Observable2Activity extends AppCompatActivity {
+public class Observable2Activity extends NavigationActivity {
 
     @InstanceState
     protected Observable2ViewModel.State state;
@@ -29,14 +27,28 @@ public class Observable2Activity extends AppCompatActivity {
     protected Observable2ViewModel observable2ViewModel;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void inject() {
         Napkin.<AppComponent>provideAppComponent(this)
                 .with(new NapkinActivityModule(this))
                 .inject(this);
+    }
+
+    @Override
+    protected int contentLayout() {
+        return R.layout.activity_observable2;
+    }
+
+    @Override
+    protected void onCreateContent(@Nullable Bundle savedInstanceState) {
         observable2ViewModel.restoreState(state);
-        ActivityObservable2Binding binding = DataBindingUtil.setContentView(this, R.layout.activity_observable2);
+        ActivityObservable2Binding binding = getContentBinding();
+        setSupportActionBar(binding.toolbar);
         binding.setViewModel(observable2ViewModel);
+    }
+
+    @Override
+    protected int selectedBottomMenuItem() {
+        return BOTTOM_MENU_ITEM_RXJAVA_2;
     }
 
     @Override

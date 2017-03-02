@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -8,106 +9,125 @@
             type="com.github.aleksandermielczarek.observablecacheexample.ui.Observable1ViewModel" />
     </data>
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-            <Button
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClickListener="@{() -> viewModel.startObservable2Example()}"
-                android:text="Start Observable 2 Example" />
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-            <Button
+        </android.support.design.widget.AppBarLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClickListener="@{() -> viewModel.clear()}"
-                android:text="Clear" />
+                android:orientation="vertical"
+                android:paddingEnd="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp">
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClickListener="@{() -> viewModel.testObservable()}"
-                android:text="Observable" />
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClickListener="@{() -> viewModel.clear()}"
+                    android:text="Clear" />
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClickListener="@{() -> viewModel.testSingle()}"
-                android:text="Single" />
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClickListener="@{() -> viewModel.testObservable()}"
+                    android:text="Observable" />
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClickListener="@{() -> viewModel.testCompletable()}"
-                android:text="Completable" />
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClickListener="@{() -> viewModel.testSingle()}"
+                    android:text="Single" />
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClickListener="@{() -> viewModel.testObservableError()}"
-                android:text="Observable error" />
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClickListener="@{() -> viewModel.testCompletable()}"
+                    android:text="Completable" />
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClickListener="@{() -> viewModel.testSingleError()}"
-                android:text="Single error" />
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClickListener="@{() -> viewModel.testObservableError()}"
+                    android:text="Observable error" />
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClickListener="@{() -> viewModel.testCompletableError()}"
-                android:text="Completable error" />
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClickListener="@{() -> viewModel.testSingleError()}"
+                    android:text="Single error" />
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClickListener="@{() -> viewModel.testServiceObservable()}"
-                android:text="Service Observable" />
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClickListener="@{() -> viewModel.testCompletableError()}"
+                    android:text="Completable error" />
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClickListener="@{() -> viewModel.testServiceSingle()}"
-                android:text="Service Single" />
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClickListener="@{() -> viewModel.testServiceObservable()}"
+                    android:text="Service Observable" />
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClickListener="@{() -> viewModel.testServiceCompletable()}"
-                android:text="Service Completable" />
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClickListener="@{() -> viewModel.testServiceSingle()}"
+                    android:text="Service Single" />
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClickListener="@{() -> viewModel.testServiceObservableError()}"
-                android:text="Service Observable error" />
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClickListener="@{() -> viewModel.testServiceCompletable()}"
+                    android:text="Service Completable" />
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClickListener="@{() -> viewModel.testServiceSingleError()}"
-                android:text="Service Single error" />
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClickListener="@{() -> viewModel.testServiceObservableError()}"
+                    android:text="Service Observable error" />
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClickListener="@{() -> viewModel.testServiceCompletableError()}"
-                android:text="Service Completable error" />
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClickListener="@{() -> viewModel.testServiceSingleError()}"
+                    android:text="Service Single error" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{viewModel.result}" />
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClickListener="@{() -> viewModel.testServiceCompletableError()}"
+                    android:text="Service Completable error" />
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.result}" />
 
-    </ScrollView>
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
 
 </layout>

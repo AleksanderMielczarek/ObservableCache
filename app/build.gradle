@@ -13,6 +13,7 @@ android {
         versionCode versionMajor * 1000000 + versionMinor * 10000 + versionFix * 100
         versionName "$versionMajor.$versionMinor.$versionFix"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
     dataBinding {
         enabled = true
@@ -43,6 +44,7 @@ dependencies {
 
     //support
     compile "com.android.support:appcompat-v7:$supportLibraryVersion"
+    compile "com.android.support:design:$supportLibraryVersion"
 
     //dagger
     compile "com.google.dagger:dagger:$daggerVersion"

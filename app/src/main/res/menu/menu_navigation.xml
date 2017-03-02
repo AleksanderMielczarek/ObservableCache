@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_rxjava_1"
+        android:title="@string/navigation_rxjava_1" />
+
+    <item
+        android:id="@+id/action_rxjava_2"
+        android:title="@string/navigation_rxjava_2" />
+
+</menu>

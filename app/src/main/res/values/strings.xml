@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Observable Cache</string>
+    <string name="navigation_rxjava_1">RxJava 1</string>
+    <string name="navigation_rxjava_2">RxJava 2</string>
 </resources>

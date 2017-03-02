@@ -1,11 +1,8 @@
 package com.github.aleksandermielczarek.observablecacheexample.ui;
 
-import android.content.Context;
 import android.databinding.ObservableField;
 import android.support.annotation.Nullable;
 
-import com.github.aleksandermielczarek.napkin.qualifier.ActivityContext;
-import com.github.aleksandermielczarek.napkin.qualifier.AppContext;
 import com.github.aleksandermielczarek.observablecache.ObservableCache;
 import com.github.aleksandermielczarek.observablecacheexample.service.Cached1Service;
 import com.github.aleksandermielczarek.observablecacheexample.service.Observable1Service;
@@ -40,19 +37,12 @@ public class Observable1ViewModel {
     private final ObservableCache observableCache;
     private final Cached1Service cached1Service;
     private final CompositeSubscription subscriptions = new CompositeSubscription();
-    private final Context context;
 
     @Inject
-    public Observable1ViewModel(Observable1Service observable1Service, ObservableCache observableCache, Cached1Service cached1Service, @ActivityContext Context context) {
+    public Observable1ViewModel(Observable1Service observable1Service, ObservableCache observableCache, Cached1Service cached1Service) {
         this.observable1Service = observable1Service;
         this.observableCache = observableCache;
         this.cached1Service = cached1Service;
-        this.context = context;
-    }
-
-    public void startObservable2Example() {
-        Observable2Activity_.intent(context)
-                .start();
     }
 
     public void testObservable() {
