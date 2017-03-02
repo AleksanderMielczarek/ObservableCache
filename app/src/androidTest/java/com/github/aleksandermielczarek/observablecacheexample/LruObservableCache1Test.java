@@ -154,7 +154,7 @@ public class LruObservableCache1Test {
 
     @Test
     public void observableErrorCompleteBeforeRotation() throws Exception {
-        subscriptions.add(observable()
+        subscriptions.add(observableError()
                 .compose(observableCache.cacheObservable(KEY))
                 .subscribe(onNext(), onError()));
         waitForRx();
@@ -163,7 +163,7 @@ public class LruObservableCache1Test {
 
     @Test
     public void observableErrorCompleteAfterRotation() throws Exception {
-        subscriptions.add(observable()
+        subscriptions.add(observableError()
                 .compose(observableCache.cacheObservable(KEY))
                 .subscribe(onNext(), onError()));
         rotate();
@@ -194,7 +194,7 @@ public class LruObservableCache1Test {
 
     @Test
     public void completableErrorCompleteBeforeRotation() throws Exception {
-        subscriptions.add(completable()
+        subscriptions.add(completableError()
                 .compose(observableCache.cacheCompletable(KEY))
                 .subscribe(onNextCompletable(), onError()));
         waitForRx();
@@ -203,7 +203,7 @@ public class LruObservableCache1Test {
 
     @Test
     public void completableErrorCompleteAfterRotation() throws Exception {
-        subscriptions.add(completable()
+        subscriptions.add(completableError()
                 .compose(observableCache.cacheCompletable(KEY))
                 .subscribe(onNextCompletable(),onError()));
         rotate();

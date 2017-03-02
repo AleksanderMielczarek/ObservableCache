@@ -178,7 +178,7 @@ public class LruObservableCache2Test {
 
     @Test
     public void flowableErrorCompleteBeforeRotation() throws Exception {
-        disposables.add(flowable()
+        disposables.add(flowableError()
                 .compose(observableCache.cacheFlowable(KEY))
                 .subscribe(onNext(), onError()));
         waitForRx();
@@ -187,7 +187,7 @@ public class LruObservableCache2Test {
 
     @Test
     public void flowableErrorCompleteAfterRotation() throws Exception {
-        disposables.add(flowable()
+        disposables.add(flowableError()
                 .compose(observableCache.cacheFlowable(KEY))
                 .subscribe(onNext(), onError()));
         rotate();
@@ -218,7 +218,7 @@ public class LruObservableCache2Test {
 
     @Test
     public void observableErrorCompleteBeforeRotation() throws Exception {
-        disposables.add(observable()
+        disposables.add(observableError()
                 .compose(observableCache.cacheObservable(KEY))
                 .subscribe(onNext(), onError()));
         waitForRx();
@@ -227,7 +227,7 @@ public class LruObservableCache2Test {
 
     @Test
     public void observableErrorCompleteAfterRotation() throws Exception {
-        disposables.add(observable()
+        disposables.add(observableError()
                 .compose(observableCache.cacheObservable(KEY))
                 .subscribe(onNext(), onError()));
         rotate();
@@ -258,7 +258,7 @@ public class LruObservableCache2Test {
 
     @Test
     public void maybeErrorCompleteBeforeRotation() throws Exception {
-        disposables.add(maybe()
+        disposables.add(maybeError()
                 .compose(observableCache.cacheMaybe(KEY))
                 .subscribe(onNext(), onError()));
         waitForRx();
@@ -267,7 +267,7 @@ public class LruObservableCache2Test {
 
     @Test
     public void maybeErrorCompleteAfterRotation() throws Exception {
-        disposables.add(maybe()
+        disposables.add(maybeError()
                 .compose(observableCache.cacheMaybe(KEY))
                 .subscribe(onNext(), onError()));
         rotate();
@@ -298,7 +298,7 @@ public class LruObservableCache2Test {
 
     @Test
     public void singleErrorCompleteBeforeRotation() throws Exception {
-        disposables.add(single()
+        disposables.add(singleError()
                 .compose(observableCache.cacheSingle(KEY))
                 .subscribe(onNext(), onError()));
         waitForRx();
@@ -307,7 +307,7 @@ public class LruObservableCache2Test {
 
     @Test
     public void singleErrorCompleteAfterRotation() throws Exception {
-        disposables.add(single()
+        disposables.add(singleError()
                 .compose(observableCache.cacheSingle(KEY))
                 .subscribe(onNext(), onError()));
         rotate();
@@ -338,7 +338,7 @@ public class LruObservableCache2Test {
 
     @Test
     public void completableErrorCompleteBeforeRotation() throws Exception {
-        disposables.add(completable()
+        disposables.add(completableError()
                 .compose(observableCache.cacheCompletable(KEY))
                 .subscribe(onNextCompletable(), onError()));
         waitForRx();
@@ -347,7 +347,7 @@ public class LruObservableCache2Test {
 
     @Test
     public void completableErrorCompleteAfterRotation() throws Exception {
-        disposables.add(completable()
+        disposables.add(completableError()
                 .compose(observableCache.cacheCompletable(KEY))
                 .subscribe(onNextCompletable(), onError()));
         rotate();
