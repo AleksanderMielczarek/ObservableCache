@@ -11,6 +11,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
@@ -18,7 +20,9 @@ import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
+
 
 /**
  * Created by Aleksander Mielczarek on 02.03.2017.
@@ -26,135 +30,329 @@ import io.reactivex.disposables.Disposable;
 @RunWith(AndroidJUnit4.class)
 public class LruObservableCache2Test {
 
+    public static final TimeUnit TIME_UNIT = TimeUnit.SECONDS;
+    public static final int DELAY = 3;
+    public static final int TIMEOUT = 10;
+    public static final int ROTATE_TIMEOUT = 1;
+    public static final String RESULT = "result";
+    public static final String ERROR = "error";
+    public static final String KEY = "key";
+
     private final ObservableCache observableCache = LruObservableCache.newInstance();
+    private final AtomicReference<String> result = new AtomicReference<>();
+    private final AtomicBoolean completableResult = new AtomicBoolean();
+    private final AtomicReference<String> error = new AtomicReference<>();
+    private final CompositeDisposable disposables = new CompositeDisposable();
+
+    public Flowable<String> flowable() {
+        return Flowable.fromCallable(() -> RESULT)
+                .delay(DELAY, TIME_UNIT);
+    }
+
+    public Observable<String> observable() {
+        return Observable.fromCallable(() -> RESULT)
+                .delay(DELAY, TIME_UNIT);
+    }
+
+    public Maybe<String> maybe() {
+        return Maybe.fromCallable(() -> RESULT)
+                .delay(DELAY, TIME_UNIT);
+    }
+
+    public Single<String> single() {
+        return Single.fromCallable(() -> RESULT)
+                .delay(DELAY, TIME_UNIT);
+    }
+
+    public Completable completable() {
+        return Completable.fromCallable(() -> null)
+                .delay(DELAY, TIME_UNIT);
+    }
+
+    public Flowable<String> flowableError() {
+        return flowable().map(observable -> {
+            throw new IllegalArgumentException(ERROR);
+        });
+    }
+
+    public Observable<String> observableError() {
+        return observable().map(observable -> {
+            throw new IllegalArgumentException(ERROR);
+        });
+    }
+
+    public Maybe<String> maybeError() {
+        return maybe().map(single -> {
+            throw new IllegalArgumentException(ERROR);
+        });
+    }
+
+    public Single<String> singleError() {
+        return single().map(single -> {
+            throw new IllegalArgumentException(ERROR);
+        });
+    }
+
+    public Completable completableError() {
+        return completable().andThen(Completable.fromCallable(() -> {
+            throw new IllegalArgumentException(ERROR);
+        }));
+    }
+
+    public void waitForRx() throws InterruptedException {
+        TIME_UNIT.sleep(TIMEOUT);
+    }
+
+    public void rotate() throws InterruptedException {
+        TIME_UNIT.sleep(ROTATE_TIMEOUT);
+        disposables.clear();
+        result.set("");
+        error.set("");
+        completableResult.set(false);
+    }
+
+    public void assertError() {
+        Assert.assertTrue(observableCache.isEmpty());
+        Assert.assertEquals(ERROR, error.get());
+        Assert.assertEquals("", result.get());
+    }
+
+    public void assertErrorCompletable() {
+        Assert.assertTrue(observableCache.isEmpty());
+        Assert.assertEquals(ERROR, error.get());
+        Assert.assertFalse(completableResult.get());
+    }
+
+    public void assertResult() {
+        Assert.assertTrue(observableCache.isEmpty());
+        Assert.assertEquals(RESULT, result.get());
+        Assert.assertEquals("", error.get());
+    }
+
+    public void assertResultCompletable() {
+        Assert.assertTrue(observableCache.isEmpty());
+        Assert.assertTrue(completableResult.get());
+        Assert.assertEquals("", error.get());
+    }
+
+    public Consumer<String> onNext() {
+        return result::set;
+    }
+
+    public Action onNextCompletable() {
+        return () -> completableResult.set(true);
+    }
+
+    public Consumer<Throwable> onError() {
+        return throwable -> error.set(throwable.getMessage());
+    }
 
     @Before
-    public void clearCache() {
+    public void clear() {
         observableCache.clear();
+        result.set("");
+        error.set("");
+        completableResult.set(false);
+        disposables.clear();
     }
 
     @Test
     public void flowableCompleteBeforeRotation() throws Exception {
-        Disposable disposable = Flowable.just("flowable")
-                .delay(3, TimeUnit.SECONDS)
-                .compose(observableCache.cacheFlowable("flowable"))
-                .subscribe();
-        TimeUnit.SECONDS.sleep(5);
-        disposable.dispose();
-        Assert.assertTrue(observableCache.isEmpty());
+        disposables.add(flowable()
+                .compose(observableCache.cacheFlowable(KEY))
+                .subscribe(onNext(), onError()));
+        waitForRx();
+        assertResult();
     }
 
     @Test
     public void flowableCompleteAfterRotation() throws Exception {
-        Flowable<String> flowable = Flowable.just("flowable")
-                .delay(5, TimeUnit.SECONDS)
-                .compose(observableCache.cacheFlowable("flowable"));
-        Disposable disposable = flowable.subscribe();
-        TimeUnit.SECONDS.sleep(1);
-        disposable.dispose();
-        final CompositeDisposable compositeDisposable = new CompositeDisposable();
-        observableCache.getFlowable("flowable").ifPresent(flowableFromCache -> compositeDisposable.add(flowableFromCache.subscribe()));
-        TimeUnit.SECONDS.sleep(7);
-        Assert.assertTrue(observableCache.isEmpty());
+        disposables.add(flowable()
+                .compose(observableCache.cacheFlowable(KEY))
+                .subscribe(onNext(), onError()));
+        rotate();
+        observableCache.<String>getFlowable(KEY).ifPresent(flowableFromCache -> disposables.add(flowableFromCache.subscribe(onNext(), onError())));
+        waitForRx();
+        assertResult();
     }
 
     @Test
-    public void singleCompleteBeforeRotation() throws Exception {
-        Disposable disposable = Single.just("single")
-                .delay(3, TimeUnit.SECONDS)
-                .compose(observableCache.cacheSingle("single"))
-                .subscribe();
-        TimeUnit.SECONDS.sleep(5);
-        disposable.dispose();
-        Assert.assertTrue(observableCache.isEmpty());
+    public void flowableErrorCompleteBeforeRotation() throws Exception {
+        disposables.add(flowable()
+                .compose(observableCache.cacheFlowable(KEY))
+                .subscribe(onNext(), onError()));
+        waitForRx();
+        assertError();
     }
 
     @Test
-    public void singleCompleteAfterRotation() throws Exception {
-        Single<String> single = Single.just("single")
-                .delay(5, TimeUnit.SECONDS)
-                .compose(observableCache.cacheSingle("single"));
-        Disposable disposable = single.subscribe();
-        TimeUnit.SECONDS.sleep(1);
-        disposable.dispose();
-        final CompositeDisposable compositeDisposable = new CompositeDisposable();
-        observableCache.getSingle("single").ifPresent(singleFromCache -> compositeDisposable.add(singleFromCache.subscribe()));
-        TimeUnit.SECONDS.sleep(7);
-        Assert.assertTrue(observableCache.isEmpty());
-    }
-
-    @Test
-    public void maybeCompleteBeforeRotation() throws Exception {
-        Disposable disposable = Maybe.just("maybe")
-                .delay(3, TimeUnit.SECONDS)
-                .compose(observableCache.cacheMaybe("maybe"))
-                .subscribe();
-        TimeUnit.SECONDS.sleep(5);
-        disposable.dispose();
-        Assert.assertTrue(observableCache.isEmpty());
-    }
-
-    @Test
-    public void maybeCompleteAfterRotation() throws Exception {
-        Maybe<String> maybe = Maybe.just("maybe")
-                .delay(5, TimeUnit.SECONDS)
-                .compose(observableCache.cacheMaybe("maybe"));
-        Disposable disposable = maybe.subscribe();
-        TimeUnit.SECONDS.sleep(1);
-        disposable.dispose();
-        final CompositeDisposable compositeDisposable = new CompositeDisposable();
-        observableCache.getMaybe("maybe").ifPresent(maybeFromCache -> compositeDisposable.add(maybeFromCache.subscribe()));
-        TimeUnit.SECONDS.sleep(7);
-        Assert.assertTrue(observableCache.isEmpty());
+    public void flowableErrorCompleteAfterRotation() throws Exception {
+        disposables.add(flowable()
+                .compose(observableCache.cacheFlowable(KEY))
+                .subscribe(onNext(), onError()));
+        rotate();
+        observableCache.<String>getFlowable(KEY).ifPresent(flowableFromCache -> disposables.add(flowableFromCache.subscribe(onNext(), onError())));
+        waitForRx();
+        assertError();
     }
 
     @Test
     public void observableCompleteBeforeRotation() throws Exception {
-        Disposable disposable = Observable.just("observable")
-                .delay(3, TimeUnit.SECONDS)
-                .compose(observableCache.cacheObservable("observable"))
-                .subscribe();
-        TimeUnit.SECONDS.sleep(5);
-        disposable.dispose();
-        Assert.assertTrue(observableCache.isEmpty());
+        disposables.add(observable()
+                .compose(observableCache.cacheObservable(KEY))
+                .subscribe(onNext(), onError()));
+        waitForRx();
+        assertResult();
     }
 
     @Test
     public void observableCompleteAfterRotation() throws Exception {
-        Observable<String> observable = Observable.just("observable")
-                .delay(5, TimeUnit.SECONDS)
-                .compose(observableCache.cacheObservable("observable"));
-        Disposable disposable = observable.subscribe();
-        TimeUnit.SECONDS.sleep(1);
-        disposable.dispose();
-        final CompositeDisposable compositeDisposable = new CompositeDisposable();
-        observableCache.getObservable("observable").ifPresent(observableFromCache -> compositeDisposable.add(observableFromCache.subscribe()));
-        TimeUnit.SECONDS.sleep(7);
-        Assert.assertTrue(observableCache.isEmpty());
+        disposables.add(observable()
+                .compose(observableCache.cacheObservable(KEY))
+                .subscribe(onNext(), onError()));
+        rotate();
+        observableCache.<String>getObservable(KEY).ifPresent(observableFromCache -> disposables.add(observableFromCache.subscribe(onNext(), onError())));
+        waitForRx();
+        assertResult();
+    }
+
+    @Test
+    public void observableErrorCompleteBeforeRotation() throws Exception {
+        disposables.add(observable()
+                .compose(observableCache.cacheObservable(KEY))
+                .subscribe(onNext(), onError()));
+        waitForRx();
+        assertError();
+    }
+
+    @Test
+    public void observableErrorCompleteAfterRotation() throws Exception {
+        disposables.add(observable()
+                .compose(observableCache.cacheObservable(KEY))
+                .subscribe(onNext(), onError()));
+        rotate();
+        observableCache.<String>getObservable(KEY).ifPresent(observableFromCache -> disposables.add(observableFromCache.subscribe(onNext(), onError())));
+        waitForRx();
+        assertError();
+    }
+
+    @Test
+    public void maybeCompleteBeforeRotation() throws Exception {
+        disposables.add(maybe()
+                .compose(observableCache.cacheMaybe(KEY))
+                .subscribe(onNext(), onError()));
+        waitForRx();
+        assertResult();
+    }
+
+    @Test
+    public void maybeCompleteAfterRotation() throws Exception {
+        disposables.add(maybe()
+                .compose(observableCache.cacheMaybe(KEY))
+                .subscribe(onNext(), onError()));
+        rotate();
+        observableCache.<String>getMaybe(KEY).ifPresent(maybeFromCache -> disposables.add(maybeFromCache.subscribe(onNext(), onError())));
+        waitForRx();
+        assertResult();
+    }
+
+    @Test
+    public void maybeErrorCompleteBeforeRotation() throws Exception {
+        disposables.add(maybe()
+                .compose(observableCache.cacheMaybe(KEY))
+                .subscribe(onNext(), onError()));
+        waitForRx();
+        assertError();
+    }
+
+    @Test
+    public void maybeErrorCompleteAfterRotation() throws Exception {
+        disposables.add(maybe()
+                .compose(observableCache.cacheMaybe(KEY))
+                .subscribe(onNext(), onError()));
+        rotate();
+        observableCache.<String>getMaybe(KEY).ifPresent(maybeFromCache -> disposables.add(maybeFromCache.subscribe(onNext(), onError())));
+        waitForRx();
+        assertError();
+    }
+
+    @Test
+    public void singleCompleteBeforeRotation() throws Exception {
+        disposables.add(single()
+                .compose(observableCache.cacheSingle(KEY))
+                .subscribe(onNext(), onError()));
+        waitForRx();
+        assertResult();
+    }
+
+    @Test
+    public void singleCompleteAfterRotation() throws Exception {
+        disposables.add(single()
+                .compose(observableCache.cacheSingle(KEY))
+                .subscribe(onNext(), onError()));
+        rotate();
+        observableCache.<String>getSingle(KEY).ifPresent(singleFromCache -> disposables.add(singleFromCache.subscribe(onNext(), onError())));
+        waitForRx();
+        assertResult();
+    }
+
+    @Test
+    public void singleErrorCompleteBeforeRotation() throws Exception {
+        disposables.add(single()
+                .compose(observableCache.cacheSingle(KEY))
+                .subscribe(onNext(), onError()));
+        waitForRx();
+        assertError();
+    }
+
+    @Test
+    public void singleErrorCompleteAfterRotation() throws Exception {
+        disposables.add(single()
+                .compose(observableCache.cacheSingle(KEY))
+                .subscribe(onNext(), onError()));
+        rotate();
+        observableCache.<String>getSingle(KEY).ifPresent(singleFromCache -> disposables.add(singleFromCache.subscribe(onNext(), onError())));
+        waitForRx();
+        assertError();
     }
 
     @Test
     public void completableCompleteBeforeRotation() throws Exception {
-        Disposable disposable = Completable.complete()
-                .delay(3, TimeUnit.SECONDS)
-                .compose(observableCache.cacheCompletable("completable"))
-                .subscribe();
-        TimeUnit.SECONDS.sleep(5);
-        disposable.dispose();
-        Assert.assertTrue(observableCache.isEmpty());
+        disposables.add(completable()
+                .compose(observableCache.cacheCompletable(KEY))
+                .subscribe(onNextCompletable(), onError()));
+        waitForRx();
+        assertResultCompletable();
     }
 
     @Test
     public void completableCompleteAfterRotation() throws Exception {
-        Completable completable = Completable.complete()
-                .delay(5, TimeUnit.SECONDS)
-                .compose(observableCache.cacheCompletable("completable"));
-        Disposable disposable = completable.subscribe();
-        TimeUnit.SECONDS.sleep(1);
-        disposable.dispose();
-        final CompositeDisposable compositeDisposable = new CompositeDisposable();
-        observableCache.getCompletable("completable").ifPresent(completableFromCache -> compositeDisposable.add(completableFromCache.subscribe()));
-        TimeUnit.SECONDS.sleep(7);
-        Assert.assertTrue(observableCache.isEmpty());
+        disposables.add(completable()
+                .compose(observableCache.cacheCompletable(KEY))
+                .subscribe(onNextCompletable(), onError()));
+        rotate();
+        observableCache.<String>getCompletable(KEY).ifPresent(completableFromCache -> disposables.add(completableFromCache.subscribe(onNextCompletable(), onError())));
+        waitForRx();
+        assertResultCompletable();
+    }
+
+    @Test
+    public void completableErrorCompleteBeforeRotation() throws Exception {
+        disposables.add(completable()
+                .compose(observableCache.cacheCompletable(KEY))
+                .subscribe(onNextCompletable(), onError()));
+        waitForRx();
+        assertErrorCompletable();
+    }
+
+    @Test
+    public void completableErrorCompleteAfterRotation() throws Exception {
+        disposables.add(completable()
+                .compose(observableCache.cacheCompletable(KEY))
+                .subscribe(onNextCompletable(), onError()));
+        rotate();
+        observableCache.<String>getCompletable(KEY).ifPresent(completableFromCache -> disposables.add(completableFromCache.subscribe(onNextCompletable(), onError())));
+        waitForRx();
+        assertErrorCompletable();
     }
 }
