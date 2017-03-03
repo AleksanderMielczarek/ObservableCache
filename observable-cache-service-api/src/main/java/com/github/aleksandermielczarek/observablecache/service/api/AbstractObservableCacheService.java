@@ -10,7 +10,6 @@ import com.github.aleksandermielczarek.observablecache.api.AbstarctObservableCac
 public abstract class AbstractObservableCacheService<T extends AbstarctObservableCache> {
 
     private static final String ERROR_MESSAGE = "Cannot create ObservableCacheServiceCreatorImpl";
-    private static final String CREATOR_CLASS_IMPL = "com.github.aleksandermielczarek.observablecache.service.ObservableCacheServiceCreatorImpl";
 
     private final T observableCache;
     private final ObservableCacheServiceCreator<T> observableCacheServiceCreator;
