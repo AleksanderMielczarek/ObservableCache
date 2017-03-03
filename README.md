@@ -34,7 +34,7 @@ Add the dependency
 
 ```groovy
 dependencies {
-    compile 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-1:1.1.0'
+    compile 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-1:1.1.1'
 }
 ```
 
@@ -137,8 +137,8 @@ Add to the dependencies
 
 ```groovy
 dependencies {
-    compile 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-1-service:1.1.0'
-    apt 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-service-1-processor:1.1.0'
+    compile 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-1-service:1.1.1'
+    apt 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-service-1-processor:1.1.1'
 }
 ```
 
@@ -221,11 +221,7 @@ must be the same as method for caching values + word 'remove':
 
 ### ProGuard
 
-Add following line:
-
-```pro
--keep class com.github.aleksandermielczarek.observablecache.service.ObservableCacheServiceCreatorImpl { *; }
-```
+ProGuard is shipped with library.
 
 ## RxJava 2.x
 
@@ -269,7 +265,7 @@ Add the dependency
 
 ```groovy
 dependencies {
-    compile 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-2:1.1.0'
+    compile 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-2:1.1.1'
 }
 ```
 
@@ -283,28 +279,28 @@ Add to the dependencies
 
 ```groovy
 dependencies {
-    compile 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-2-service:1.1.0'
-    apt 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-service-2-processor:1.1.0'
+    compile 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-2-service:1.1.1'
+    apt 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-service-2-processor:1.1.1'
 }
 ```
 
 ### ProGuard
 
-Add following line:
-
-```pro
--keep class com.github.aleksandermielczarek.observablecache2.service.ObservableCacheServiceCreatorImpl { *; }
-```
-
+ProGuard is shipped with library.
 
 ## Changelog
+
+### 1.1.1 (2017-03-03)
+
+- fix issue that does not remove Single and Maybe from cache
+- add ProGuard rules to library
 
 ### 1.1.0 (2017-02-10)
 
 - add RxJava 2.x support
 - rename RxJava 1.x modules
 
-### 1.1.0 (2016-11-06)
+### 1.1.1 (2016-11-06)
 
 - add generator for caching interface
 
