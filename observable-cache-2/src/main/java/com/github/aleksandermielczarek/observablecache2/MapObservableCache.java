@@ -6,23 +6,31 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.reactivex.Flowable;
+import io.reactivex.Maybe;
+import io.reactivex.Single;
 
 /**
  * Created by Aleksander Mielczarek on 09.02.2017.
  */
 
-public class MapObservableCache extends ObservableCache {
+public final class MapObservableCache extends ObservableCache {
 
-    static volatile ObservableCache defaultInstance;
+    private static volatile ObservableCache defaultInstance;
 
-    private final Map<String, Flowable<?>> observables;
+    private final Map<String, Flowable<?>> flowables;
+    private final Map<String, Single<?>> singles;
+    private final Map<String, Maybe<?>> maybes;
 
     private MapObservableCache() {
-        observables = new HashMap<>();
+        flowables = new HashMap<>();
+        singles = new HashMap<>();
+        maybes = new HashMap<>();
     }
 
     private MapObservableCache(int size) {
-        observables = new HashMap<>(size);
+        flowables = new HashMap<>(size);
+        singles = new HashMap<>(size);
+        maybes = new HashMap<>(size);
     }
 
     public static ObservableCache getDefault() {
@@ -46,35 +54,65 @@ public class MapObservableCache extends ObservableCache {
 
     @Override
     public <T> void cache(String key, Flowable<T> flowable) {
-        observables.put(key, flowable);
+        flowables.put(key, flowable);
+    }
+
+    @Override
+    public <T> void cache(String key, Single<T> single) {
+        singles.put(key, single);
+    }
+
+    @Override
+    public <T> void cache(String key, Maybe<T> maybe) {
+        maybes.put(key, maybe);
     }
 
     @Override
     public boolean clear() {
         boolean empty = isEmpty();
-        observables.clear();
+        flowables.clear();
+        singles.clear();
+        maybes.clear();
         return !empty;
     }
 
     @Override
     public boolean remove(String key) {
-        return observables.remove(key) != null;
+        Flowable<?> removedFlowable = flowables.remove(key);
+        Single<?> removedSingle = singles.remove(key);
+        Maybe<?> removedMaybe = maybes.remove(key);
+        return removedFlowable != null || removedSingle != null || removedMaybe != null;
     }
 
     @Override
     public int size() {
-        return observables.size();
+        return flowables.size() + singles.size() + maybes.size();
     }
 
     @Override
     public boolean exists(String key) {
-        return observables.containsKey(key);
+        return flowables.containsKey(key) || singles.containsKey(key) || maybes.containsKey(key);
     }
 
     @Nullable
     @Override
-    protected <T> Flowable<T> getFromCache(String key) {
-        return (Flowable<T>) observables.get(key);
+    @SuppressWarnings("unchecked")
+    protected <T> Flowable<T> getFlowableFromCache(String key) {
+        return (Flowable<T>) flowables.get(key);
+    }
+
+    @Nullable
+    @Override
+    @SuppressWarnings("unchecked")
+    protected <T> Single<T> getSingleFromCache(String key) {
+        return (Single<T>) singles.get(key);
+    }
+
+    @Nullable
+    @Override
+    @SuppressWarnings("unchecked")
+    protected <T> Maybe<T> getMaybeFromCache(String key) {
+        return (Maybe<T>) maybes.get(key);
     }
 
 }

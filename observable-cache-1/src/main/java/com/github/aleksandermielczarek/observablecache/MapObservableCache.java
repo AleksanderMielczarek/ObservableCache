@@ -13,7 +13,7 @@ import rx.Observable;
 
 public final class MapObservableCache extends ObservableCache {
 
-    static volatile ObservableCache defaultInstance;
+    private static volatile ObservableCache defaultInstance;
 
     private final Map<String, Observable<?>> observables;
 

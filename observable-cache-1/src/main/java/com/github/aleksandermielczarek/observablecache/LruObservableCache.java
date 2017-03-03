@@ -14,7 +14,7 @@ public final class LruObservableCache extends ObservableCache {
 
     public static final int DEFAULT_CACHE_SIZE = 16;
 
-    static volatile ObservableCache defaultInstance;
+    private static volatile ObservableCache defaultInstance;
 
     private final LruCache<String, Observable<?>> observables;
 

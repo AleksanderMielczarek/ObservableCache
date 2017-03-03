@@ -20,25 +20,23 @@ public abstract class ObservableCache extends AbstarctObservableCache {
 
     public abstract <T> void cache(String key, Flowable<T> flowable);
 
+    public abstract <T> void cache(String key, Single<T> single);
+
+    public abstract <T> void cache(String key, Maybe<T> maybe);
+
     @Nullable
-    protected abstract <T> Flowable<T> getFromCache(String key);
+    protected abstract <T> Flowable<T> getFlowableFromCache(String key);
+
+    @Nullable
+    protected abstract <T> Single<T> getSingleFromCache(String key);
+
+    @Nullable
+    protected abstract <T> Maybe<T> getMaybeFromCache(String key);
 
     public <T> Observable<T> cache(String key, Observable<T> observable) {
         Flowable<T> flowable = observable.toFlowable(BackpressureStrategy.BUFFER);
         cache(key, flowable);
         return flowable.toObservable();
-    }
-
-    public <T> Maybe<T> cache(String key, Maybe<T> maybe) {
-        Flowable<T> flowable = maybe.toFlowable();
-        cache(key, flowable);
-        return flowable.firstElement();
-    }
-
-    public <T> Single<T> cache(String key, Single<T> single) {
-        Flowable<T> flowable = single.toFlowable();
-        cache(key, flowable);
-        return flowable.firstOrError();
     }
 
     public Completable cache(String key, Completable completable) {
@@ -68,12 +66,12 @@ public abstract class ObservableCache extends AbstarctObservableCache {
     }
 
     public <T> FlowableFromCache<T> getFlowable(String key) {
-        Flowable<T> flowableFromCache = getFromCache(key);
+        Flowable<T> flowableFromCache = getFlowableFromCache(key);
         return new FlowableFromCache<>(flowableFromCache, this);
     }
 
     public <T> ObservableFromCache<T> getObservable(String key) {
-        Flowable<T> flowableFromCache = getFromCache(key);
+        Flowable<T> flowableFromCache = getFlowableFromCache(key);
         if (flowableFromCache != null) {
             return new ObservableFromCache<>(flowableFromCache.toObservable(), this);
         }
@@ -81,23 +79,17 @@ public abstract class ObservableCache extends AbstarctObservableCache {
     }
 
     public <T> MaybeFromCache<T> getMaybe(String key) {
-        Flowable<T> flowableFromCache = getFromCache(key);
-        if (flowableFromCache != null) {
-            return new MaybeFromCache<>(flowableFromCache.firstElement(), this);
-        }
-        return new MaybeFromCache<>(null, this);
+        Maybe<T> maybeFromCache = getMaybeFromCache(key);
+        return new MaybeFromCache<>(maybeFromCache, this);
     }
 
     public <T> SingleFromCache<T> getSingle(String key) {
-        Flowable<T> flowableFromCache = getFromCache(key);
-        if (flowableFromCache != null) {
-            return new SingleFromCache<>(flowableFromCache.firstOrError(), this);
-        }
-        return new SingleFromCache<>(null, this);
+        Single<T> singleFromCache = getSingleFromCache(key);
+        return new SingleFromCache<>(singleFromCache, this);
     }
 
     public CompletableFromCache getCompletable(String key) {
-        Flowable<?> flowableFromCache = getFromCache(key);
+        Flowable<?> flowableFromCache = getFlowableFromCache(key);
         if (flowableFromCache != null) {
             return new CompletableFromCache(flowableFromCache.ignoreElements(), this);
         }
@@ -121,16 +113,26 @@ public abstract class ObservableCache extends AbstarctObservableCache {
         return cachedFlowable.toObservable();
     }
 
-    <T> Maybe<T> cacheMaybe(String key, Maybe<T> maybe) {
-        Flowable<T> flowable = maybe.toFlowable();
-        Flowable<T> cachedFlowable = cacheFlowable(key, flowable);
-        return cachedFlowable.firstElement();
+    <T> Maybe<T> cacheMaybe(final String key, Maybe<T> maybe) {
+       Maybe<T> cached = maybe.cache().doAfterTerminate(new Action() {
+            @Override
+            public void run() throws Exception {
+                remove(key);
+            }
+        });
+        cache(key, cached);
+        return cached;
     }
 
-    <T> Single<T> cacheSingle(String key, Single<T> single) {
-        Flowable<T> flowable = single.toFlowable();
-        Flowable<T> cachedFlowable = cacheFlowable(key, flowable);
-        return cachedFlowable.firstOrError();
+    <T> Single<T> cacheSingle(final String key, Single<T> single) {
+        Single<T> cached = single.cache().doAfterTerminate(new Action() {
+            @Override
+            public void run() throws Exception {
+                remove(key);
+            }
+        });
+        cache(key, cached);
+        return cached;
     }
 
     Completable cacheCompletable(String key, Completable completable) {
