@@ -75,6 +75,7 @@ public final class LruObservableCache extends ObservableCache {
 
     @Override
     @Nullable
+    @SuppressWarnings("unchecked")
     protected <T> Observable<T> getFromCache(String key) {
         return (Observable<T>) observables.get(key);
     }

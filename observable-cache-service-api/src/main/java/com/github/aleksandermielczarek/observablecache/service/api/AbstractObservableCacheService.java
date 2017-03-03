@@ -14,6 +14,7 @@ public abstract class AbstractObservableCacheService<T extends AbstarctObservabl
     private final T observableCache;
     private final ObservableCacheServiceCreator<T> observableCacheServiceCreator;
 
+    @SuppressWarnings("TryWithIdenticalCatches")
     public AbstractObservableCacheService(T observableCache) {
         this.observableCache = observableCache;
         try {
@@ -30,7 +31,7 @@ public abstract class AbstractObservableCacheService<T extends AbstarctObservabl
 
     protected abstract String creatorClassImpl();
 
-    public <T> T createObservableCacheService(Class<T> observableCacheServiceClass) {
+    public <S> S createObservableCacheService(Class<S> observableCacheServiceClass) {
         return observableCacheServiceCreator.createObservableCacheService(observableCacheServiceClass, observableCache);
     }
 }
