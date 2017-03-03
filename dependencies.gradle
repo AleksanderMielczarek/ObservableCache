@@ -7,8 +7,7 @@ ext {
     sdkVersion = 25
     buildToolsVersionVersion = "25.0.2"
 
-    toolsBuildGradleVersion = '2.2.2'
-    androidAptVersion = '1.8'
+    toolsBuildGradleVersion = '2.3.0'
     gradleRetrolambdaVersion = '3.6.0'
     gradleVersionsPluginVersion = '0.14.0'
     androidMavenGradlePluginVersion = '1.5'
