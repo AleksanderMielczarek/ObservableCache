@@ -8,7 +8,7 @@ import io.reactivex.MaybeTransformer;
  * Created by Aleksander Mielczarek on 09.02.2017.
  */
 
-public class CacheableMaybe<T> implements MaybeTransformer<T, T> {
+public final class CacheableMaybe<T> implements MaybeTransformer<T, T> {
 
     private final String key;
     private final AbstractObservableCache observableCache;

@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
  * Created by Aleksander Mielczarek on 29.10.2016.
  */
 
-public abstract class ValueFromCache<T, S extends ValueFromCache.ValueInCacheAction<T>> {
+public abstract class ValueFromCache<T> {
 
     @Nullable
     private final T valueFromCache;
@@ -24,7 +24,7 @@ public abstract class ValueFromCache<T, S extends ValueFromCache.ValueInCacheAct
         return valueFromCache;
     }
 
-    public void ifPresent(S valueInCacheAction) {
+    public void ifPresent(ValueInCacheAction<T> valueInCacheAction) {
         if (isPresent()) {
             valueInCacheAction.action(valueFromCache);
         }
