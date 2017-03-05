@@ -1,8 +1,8 @@
 package com.github.aleksandermielczarek.observablecacheexample.module;
 
 import com.github.aleksandermielczarek.napkin.scope.AppScope;
+import com.github.aleksandermielczarek.observablecache2.AbstractObservableCache;
 import com.github.aleksandermielczarek.observablecache2.LruObservableCache;
-import com.github.aleksandermielczarek.observablecache2.ObservableCache;
 import com.github.aleksandermielczarek.observablecache2.service.ObservableCacheService;
 import com.github.aleksandermielczarek.observablecacheexample.service.Cached2Service;
 import com.github.aleksandermielczarek.observablecacheexample.service.Observable2Service;
@@ -19,7 +19,7 @@ public class Observable2Module {
 
     @Provides
     @AppScope
-    ObservableCache provideObservableCache() {
+    AbstractObservableCache provideObservableCache() {
         return LruObservableCache.newInstance();
     }
 
@@ -31,7 +31,7 @@ public class Observable2Module {
 
     @Provides
     @AppScope
-    ObservableCacheService provideObservableCacheService(ObservableCache observableCache) {
+    ObservableCacheService provideObservableCacheService(AbstractObservableCache observableCache) {
         return new ObservableCacheService(observableCache);
     }
 

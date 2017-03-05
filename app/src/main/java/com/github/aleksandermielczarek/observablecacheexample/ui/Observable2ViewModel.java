@@ -3,7 +3,7 @@ package com.github.aleksandermielczarek.observablecacheexample.ui;
 import android.databinding.ObservableField;
 import android.support.annotation.Nullable;
 
-import com.github.aleksandermielczarek.observablecache2.ObservableCache;
+import com.github.aleksandermielczarek.observablecache2.AbstractObservableCache;
 import com.github.aleksandermielczarek.observablecacheexample.service.Cached2Service;
 import com.github.aleksandermielczarek.observablecacheexample.service.Observable2Service;
 
@@ -41,12 +41,12 @@ public class Observable2ViewModel {
     public final ObservableField<String> result = new ObservableField<>();
 
     private final Observable2Service observable2Service;
-    private final ObservableCache observableCache;
+    private final AbstractObservableCache observableCache;
     private final Cached2Service cached2Service;
     private final CompositeDisposable disposables = new CompositeDisposable();
 
     @Inject
-    public Observable2ViewModel(Observable2Service observable2Service, ObservableCache observableCache, Cached2Service cached2Service) {
+    public Observable2ViewModel(Observable2Service observable2Service, AbstractObservableCache observableCache, Cached2Service cached2Service) {
         this.observable2Service = observable2Service;
         this.observableCache = observableCache;
         this.cached2Service = cached2Service;

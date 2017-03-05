@@ -51,6 +51,8 @@ public abstract class AbstractObservableCacheServiceProcessor extends AbstractPr
 
     protected abstract String servicePackage();
 
+    protected abstract String observableCacheClassName();
+
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
         super.init(processingEnv);
@@ -134,12 +136,12 @@ public abstract class AbstractObservableCacheServiceProcessor extends AbstractPr
     private void writeService(TypeSpec.Builder builder, TypeElement observableCacheServiceInterfaceTypeElement) {
         builder.addSuperinterface(TypeName.get(observableCacheServiceInterfaceTypeElement.asType()))
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
-                .addField(FieldSpec.builder(ClassName.get(observableCachePackage(), "ObservableCache"), "observableCache")
+                .addField(FieldSpec.builder(ClassName.get(observableCachePackage(), observableCacheClassName()), "observableCache")
                         .addModifiers(Modifier.PRIVATE, Modifier.FINAL)
                         .build())
                 .addMethod(MethodSpec.constructorBuilder()
                         .addModifiers(Modifier.PUBLIC)
-                        .addParameter(ClassName.get(observableCachePackage(), "ObservableCache"), "observableCache")
+                        .addParameter(ClassName.get(observableCachePackage(), observableCacheClassName()), "observableCache")
                         .addStatement("this.$N = $N", "observableCache", "observableCache")
                         .build());
 

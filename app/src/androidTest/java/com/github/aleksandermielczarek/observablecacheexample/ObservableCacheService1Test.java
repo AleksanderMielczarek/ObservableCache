@@ -4,6 +4,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.github.aleksandermielczarek.observablecache.AbstractObservableCache;
 import com.github.aleksandermielczarek.observablecache.LruObservableCache;
+import com.github.aleksandermielczarek.observablecache.service.ObservableCacheService;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -26,7 +27,7 @@ import rx.subscriptions.CompositeSubscription;
  * Created by Aleksander Mielczarek on 02.03.2017.
  */
 @RunWith(AndroidJUnit4.class)
-public class LruObservableCache1Test {
+public class ObservableCacheService1Test {
 
     public static final TimeUnit TIME_UNIT = TimeUnit.SECONDS;
     public static final int DELAY = 3;
@@ -34,9 +35,10 @@ public class LruObservableCache1Test {
     public static final int ROTATE_TIMEOUT = 1;
     public static final String RESULT = "result";
     public static final String ERROR = "error";
-    public static final String KEY = "key";
 
     private final AbstractObservableCache observableCache = LruObservableCache.newInstance();
+    private final ObservableCacheService observableCacheService = new ObservableCacheService(observableCache);
+    private final Cached1Service cachedService = observableCacheService.createObservableCacheService(Cached1Service.class);
     private final AtomicReference<String> result = new AtomicReference<>();
     private final AtomicBoolean completableResult = new AtomicBoolean();
     private final AtomicReference<String> error = new AtomicReference<>();
@@ -135,7 +137,7 @@ public class LruObservableCache1Test {
     @Test
     public void observableCompleteBeforeRotation() throws Exception {
         subscriptions.add(observable()
-                .compose(observableCache.cacheObservable(KEY))
+                .compose(cachedService.observable())
                 .subscribe(onNext(), onError()));
         waitForRx();
         assertResult();
@@ -144,10 +146,10 @@ public class LruObservableCache1Test {
     @Test
     public void observableCompleteAfterRotation() throws Exception {
         subscriptions.add(observable()
-                .compose(observableCache.cacheObservable(KEY))
+                .compose(cachedService.observable())
                 .subscribe(onNext(), onError()));
         rotate();
-        observableCache.<String>getObservable(KEY).ifPresent(observableFromCache -> subscriptions.add(observableFromCache.subscribe(onNext(), onError())));
+        cachedService.cachedObservable().ifPresent(observableFromCache -> subscriptions.add(observableFromCache.subscribe(onNext(), onError())));
         waitForRx();
         assertResult();
     }
@@ -155,7 +157,7 @@ public class LruObservableCache1Test {
     @Test
     public void observableErrorCompleteBeforeRotation() throws Exception {
         subscriptions.add(observableError()
-                .compose(observableCache.cacheObservable(KEY))
+                .compose(cachedService.observable())
                 .subscribe(onNext(), onError()));
         waitForRx();
         assertError();
@@ -164,10 +166,10 @@ public class LruObservableCache1Test {
     @Test
     public void observableErrorCompleteAfterRotation() throws Exception {
         subscriptions.add(observableError()
-                .compose(observableCache.cacheObservable(KEY))
+                .compose(cachedService.observable())
                 .subscribe(onNext(), onError()));
         rotate();
-        observableCache.<String>getObservable(KEY).ifPresent(observableFromCache -> subscriptions.add(observableFromCache.subscribe(onNext(), onError())));
+        cachedService.cachedObservable().ifPresent(observableFromCache -> subscriptions.add(observableFromCache.subscribe(onNext(), onError())));
         waitForRx();
         assertError();
     }
@@ -175,7 +177,7 @@ public class LruObservableCache1Test {
     @Test
     public void singleCompleteBeforeRotation() throws Exception {
         subscriptions.add(single()
-                .compose(observableCache.cacheSingle(KEY))
+                .compose(cachedService.single())
                 .subscribe(onNext(), onError()));
         waitForRx();
         assertResult();
@@ -184,10 +186,10 @@ public class LruObservableCache1Test {
     @Test
     public void singleCompleteAfterRotation() throws Exception {
         subscriptions.add(single()
-                .compose(observableCache.cacheSingle(KEY))
+                .compose(cachedService.single())
                 .subscribe(onNext(), onError()));
         rotate();
-        observableCache.<String>getSingle(KEY).ifPresent(singleFromCache -> subscriptions.add(singleFromCache.subscribe(onNext(), onError())));
+        cachedService.cachedSingle().ifPresent(singleFromCache -> subscriptions.add(singleFromCache.subscribe(onNext(), onError())));
         waitForRx();
         assertResult();
     }
@@ -195,7 +197,7 @@ public class LruObservableCache1Test {
     @Test
     public void singleErrorCompleteBeforeRotation() throws Exception {
         subscriptions.add(singleError()
-                .compose(observableCache.cacheSingle(KEY))
+                .compose(cachedService.single())
                 .subscribe(onNext(), onError()));
         waitForRx();
         assertError();
@@ -204,18 +206,18 @@ public class LruObservableCache1Test {
     @Test
     public void singleErrorCompleteAfterRotation() throws Exception {
         subscriptions.add(singleError()
-                .compose(observableCache.cacheSingle(KEY))
+                .compose(cachedService.single())
                 .subscribe(onNext(), onError()));
         rotate();
-        observableCache.<String>getSingle(KEY).ifPresent(singleFromCache -> subscriptions.add(singleFromCache.subscribe(onNext(), onError())));
+        cachedService.cachedSingle().ifPresent(singleFromCache -> subscriptions.add(singleFromCache.subscribe(onNext(), onError())));
         waitForRx();
         assertError();
     }
-    
+
     @Test
     public void completableCompleteBeforeRotation() throws Exception {
         subscriptions.add(completable()
-                .compose(observableCache.cacheCompletable(KEY))
+                .compose(cachedService.completable())
                 .subscribe(onNextCompletable(), onError()));
         waitForRx();
         assertResultCompletable();
@@ -224,10 +226,10 @@ public class LruObservableCache1Test {
     @Test
     public void completableCompleteAfterRotation() throws Exception {
         subscriptions.add(completable()
-                .compose(observableCache.cacheCompletable(KEY))
+                .compose(cachedService.completable())
                 .subscribe(onNextCompletable(), onError()));
         rotate();
-        observableCache.<String>getCompletable(KEY).ifPresent(completableFromCache -> subscriptions.add(completableFromCache.subscribe(onNextCompletable(), onError())));
+        cachedService.cachedCompletable().ifPresent(completableFromCache -> subscriptions.add(completableFromCache.subscribe(onNextCompletable(), onError())));
         waitForRx();
         assertResultCompletable();
     }
@@ -235,7 +237,7 @@ public class LruObservableCache1Test {
     @Test
     public void completableErrorCompleteBeforeRotation() throws Exception {
         subscriptions.add(completableError()
-                .compose(observableCache.cacheCompletable(KEY))
+                .compose(cachedService.completable())
                 .subscribe(onNextCompletable(), onError()));
         waitForRx();
         assertErrorCompletable();
@@ -244,10 +246,10 @@ public class LruObservableCache1Test {
     @Test
     public void completableErrorCompleteAfterRotation() throws Exception {
         subscriptions.add(completableError()
-                .compose(observableCache.cacheCompletable(KEY))
-                .subscribe(onNextCompletable(),onError()));
+                .compose(cachedService.completable())
+                .subscribe(onNextCompletable(), onError()));
         rotate();
-        observableCache.<String>getCompletable(KEY).ifPresent(completableFromCache -> subscriptions.add(completableFromCache.subscribe(onNextCompletable(), onError())));
+        cachedService.cachedCompletable().ifPresent(completableFromCache -> subscriptions.add(completableFromCache.subscribe(onNextCompletable(), onError())));
         waitForRx();
         assertErrorCompletable();
     }

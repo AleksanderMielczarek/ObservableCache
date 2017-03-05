@@ -3,7 +3,6 @@ package com.github.aleksandermielczarek.observablecache;
 import android.support.annotation.Nullable;
 
 import com.github.aleksandermielczarek.observablecache.api.ValueFromCache;
-import com.github.aleksandermielczarek.observablecache.api.ValueInCacheAction;
 
 import rx.Completable;
 
@@ -12,17 +11,16 @@ import rx.Completable;
  */
 public final class CompletableFromCache extends ValueFromCache<Completable, CompletableFromCache.CompletableInCacheAction> {
 
-    CompletableFromCache(@Nullable Completable valueFromCache, ObservableCache observableCache) {
-        super(valueFromCache, observableCache);
+    CompletableFromCache(@Nullable Completable valueFromCache) {
+        super(valueFromCache);
     }
 
     @Override
-    public CompletableFromCache ifPresent(CompletableInCacheAction valueInCacheAction) {
+    public void ifPresent(CompletableInCacheAction valueInCacheAction) {
         super.ifPresent(valueInCacheAction);
-        return this;
     }
 
-    public interface CompletableInCacheAction extends ValueInCacheAction<Completable> {
+    public interface CompletableInCacheAction extends ValueFromCache.ValueInCacheAction<Completable> {
         @Override
         void action(Completable completable);
     }

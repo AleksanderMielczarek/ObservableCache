@@ -13,9 +13,9 @@ import io.reactivex.Single;
  * Created by Aleksander Mielczarek on 09.02.2017.
  */
 
-public final class MapObservableCache extends ObservableCache {
+public final class MapObservableCache extends AbstractObservableCache {
 
-    private static volatile ObservableCache defaultInstance;
+    private static volatile AbstractObservableCache defaultInstance;
 
     private final Map<String, Flowable<?>> flowables;
     private final Map<String, Single<?>> singles;
@@ -33,9 +33,9 @@ public final class MapObservableCache extends ObservableCache {
         maybes = new HashMap<>(size);
     }
 
-    public static ObservableCache getDefault() {
+    public static AbstractObservableCache getDefault() {
         if (defaultInstance == null) {
-            synchronized (ObservableCache.class) {
+            synchronized (AbstractObservableCache.class) {
                 if (defaultInstance == null) {
                     defaultInstance = newInstance();
                 }
@@ -44,11 +44,11 @@ public final class MapObservableCache extends ObservableCache {
         return defaultInstance;
     }
 
-    public static ObservableCache newInstance() {
+    public static AbstractObservableCache newInstance() {
         return new MapObservableCache();
     }
 
-    public static ObservableCache newInstance(int size) {
+    public static AbstractObservableCache newInstance(int size) {
         return new MapObservableCache(size);
     }
 
@@ -92,6 +92,11 @@ public final class MapObservableCache extends ObservableCache {
     @Override
     public boolean exists(String key) {
         return flowables.containsKey(key) || singles.containsKey(key) || maybes.containsKey(key);
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return flowables.isEmpty() && singles.isEmpty() && maybes.isEmpty();
     }
 
     @Nullable

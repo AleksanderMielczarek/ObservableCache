@@ -2,7 +2,7 @@ package com.github.aleksandermielczarek.observablecache;
 
 import android.support.annotation.Nullable;
 
-import com.github.aleksandermielczarek.observablecache.api.AbstarctObservableCache;
+import com.github.aleksandermielczarek.observablecache.api.ObservableCache;
 
 import rx.Completable;
 import rx.Observable;
@@ -13,7 +13,7 @@ import rx.functions.Action0;
  * Created by Aleksander Mielczarek on 29.10.2016.
  */
 
-public abstract class ObservableCache extends AbstarctObservableCache {
+public abstract class AbstractObservableCache implements ObservableCache {
 
     public abstract <T> void cache(String key, Observable<T> observable);
 
@@ -46,23 +46,23 @@ public abstract class ObservableCache extends AbstarctObservableCache {
 
     public <T> ObservableFromCache<T> getObservable(String key) {
         Observable<T> observableFromCache = getFromCache(key);
-        return new ObservableFromCache<>(observableFromCache, this);
+        return new ObservableFromCache<>(observableFromCache);
     }
 
     public <T> SingleFromCache<T> getSingle(String key) {
         Observable<T> observableFromCache = getFromCache(key);
         if (observableFromCache != null) {
-            return new SingleFromCache<>(observableFromCache.toSingle(), this);
+            return new SingleFromCache<>(observableFromCache.toSingle());
         }
-        return new SingleFromCache<>(null, this);
+        return new SingleFromCache<>(null);
     }
 
     public CompletableFromCache getCompletable(String key) {
         Observable<?> observableFromCache = getFromCache(key);
         if (observableFromCache != null) {
-            return new CompletableFromCache(observableFromCache.toCompletable(), this);
+            return new CompletableFromCache(observableFromCache.toCompletable());
         }
-        return new CompletableFromCache(null, this);
+        return new CompletableFromCache(null);
     }
 
     <T> Observable<T> cacheObservable(final String key, Observable<T> observable) {

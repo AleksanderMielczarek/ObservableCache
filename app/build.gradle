@@ -39,6 +39,8 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testCompile "junit:junit:$junitVersion"
+    androidTestAnnotationProcessor project(':observable-cache-1-service-processor')
+    androidTestAnnotationProcessor project(':observable-cache-2-service-processor')
 
     //support
     compile "com.android.support:appcompat-v7:$supportLibraryVersion"

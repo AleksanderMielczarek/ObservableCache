@@ -9,9 +9,9 @@ import rx.Observable;
 public final class CacheableObservable<T> implements Observable.Transformer<T, T> {
 
     private final String key;
-    private final ObservableCache observableCache;
+    private final AbstractObservableCache observableCache;
 
-    public CacheableObservable(String key, ObservableCache observableCache) {
+    public CacheableObservable(String key, AbstractObservableCache observableCache) {
         this.key = key;
         this.observableCache = observableCache;
     }

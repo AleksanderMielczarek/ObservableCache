@@ -12,9 +12,9 @@ import io.reactivex.FlowableTransformer;
 public final class CacheableFlowable<T> implements FlowableTransformer<T, T> {
 
     private final String key;
-    private final ObservableCache observableCache;
+    private final AbstractObservableCache observableCache;
 
-    public CacheableFlowable(String key, ObservableCache observableCache) {
+    public CacheableFlowable(String key, AbstractObservableCache observableCache) {
         this.key = key;
         this.observableCache = observableCache;
     }

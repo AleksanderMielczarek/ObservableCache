@@ -3,7 +3,6 @@ package com.github.aleksandermielczarek.observablecache2;
 import android.support.annotation.Nullable;
 
 import com.github.aleksandermielczarek.observablecache.api.ValueFromCache;
-import com.github.aleksandermielczarek.observablecache.api.ValueInCacheAction;
 
 import io.reactivex.Flowable;
 
@@ -13,17 +12,16 @@ import io.reactivex.Flowable;
 
 public final class FlowableFromCache<T> extends ValueFromCache<Flowable<T>, FlowableFromCache.FlowableInCacheAction<T>> {
 
-    FlowableFromCache(@Nullable Flowable<T> valueFromCache, ObservableCache observableCache) {
-        super(valueFromCache, observableCache);
+    FlowableFromCache(@Nullable Flowable<T> valueFromCache) {
+        super(valueFromCache);
     }
 
     @Override
-    public FlowableFromCache<T> ifPresent(FlowableInCacheAction<T> valueInCacheAction) {
+    public void ifPresent(FlowableInCacheAction<T> valueInCacheAction) {
         super.ifPresent(valueInCacheAction);
-        return this;
     }
 
-    public interface FlowableInCacheAction<T> extends ValueInCacheAction<Flowable<T>> {
+    public interface FlowableInCacheAction<T> extends ValueFromCache.ValueInCacheAction<Flowable<T>> {
         @Override
         void action(Flowable<T> flowableFromCache);
     }

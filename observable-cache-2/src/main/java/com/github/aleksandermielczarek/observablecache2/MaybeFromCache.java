@@ -3,7 +3,6 @@ package com.github.aleksandermielczarek.observablecache2;
 import android.support.annotation.Nullable;
 
 import com.github.aleksandermielczarek.observablecache.api.ValueFromCache;
-import com.github.aleksandermielczarek.observablecache.api.ValueInCacheAction;
 
 import io.reactivex.Maybe;
 
@@ -13,17 +12,16 @@ import io.reactivex.Maybe;
 
 public final class MaybeFromCache<T> extends ValueFromCache<Maybe<T>, MaybeFromCache.MaybeInCacheAction<T>> {
 
-    MaybeFromCache(@Nullable Maybe<T> valueFromCache, ObservableCache observableCache) {
-        super(valueFromCache, observableCache);
+    MaybeFromCache(@Nullable Maybe<T> valueFromCache) {
+        super(valueFromCache);
     }
 
     @Override
-    public MaybeFromCache<T> ifPresent(MaybeInCacheAction<T> valueInCacheAction) {
+    public void ifPresent(MaybeInCacheAction<T> valueInCacheAction) {
         super.ifPresent(valueInCacheAction);
-        return this;
     }
 
-    public interface MaybeInCacheAction<T> extends ValueInCacheAction<Maybe<T>> {
+    public interface MaybeInCacheAction<T> extends ValueFromCache.ValueInCacheAction<Maybe<T>> {
         @Override
         void action(Maybe<T> maybeFromCache);
     }

@@ -11,9 +11,9 @@ import io.reactivex.MaybeTransformer;
 public class CacheableMaybe<T> implements MaybeTransformer<T, T> {
 
     private final String key;
-    private final ObservableCache observableCache;
+    private final AbstractObservableCache observableCache;
 
-    public CacheableMaybe(String key, ObservableCache observableCache) {
+    public CacheableMaybe(String key, AbstractObservableCache observableCache) {
         this.key = key;
         this.observableCache = observableCache;
     }

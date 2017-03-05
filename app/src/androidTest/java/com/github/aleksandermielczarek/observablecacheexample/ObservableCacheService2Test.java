@@ -2,8 +2,9 @@ package com.github.aleksandermielczarek.observablecacheexample;
 
 import android.support.test.runner.AndroidJUnit4;
 
-import com.github.aleksandermielczarek.observablecache2.LruObservableCache;
 import com.github.aleksandermielczarek.observablecache2.AbstractObservableCache;
+import com.github.aleksandermielczarek.observablecache2.LruObservableCache;
+import com.github.aleksandermielczarek.observablecache2.service.ObservableCacheService;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -28,7 +29,7 @@ import io.reactivex.functions.Consumer;
  * Created by Aleksander Mielczarek on 02.03.2017.
  */
 @RunWith(AndroidJUnit4.class)
-public class LruObservableCache2Test {
+public class ObservableCacheService2Test {
 
     public static final TimeUnit TIME_UNIT = TimeUnit.SECONDS;
     public static final int DELAY = 3;
@@ -36,9 +37,10 @@ public class LruObservableCache2Test {
     public static final int ROTATE_TIMEOUT = 1;
     public static final String RESULT = "result";
     public static final String ERROR = "error";
-    public static final String KEY = "key";
 
     private final AbstractObservableCache observableCache = LruObservableCache.newInstance();
+    private final ObservableCacheService observableCacheService = new ObservableCacheService(observableCache);
+    private final Cached2Service cachedService = observableCacheService.createObservableCacheService(Cached2Service.class);
     private final AtomicReference<String> result = new AtomicReference<>();
     private final AtomicBoolean completableResult = new AtomicBoolean();
     private final AtomicReference<String> error = new AtomicReference<>();
@@ -159,7 +161,7 @@ public class LruObservableCache2Test {
     @Test
     public void flowableCompleteBeforeRotation() throws Exception {
         disposables.add(flowable()
-                .compose(observableCache.cacheFlowable(KEY))
+                .compose(cachedService.flowable())
                 .subscribe(onNext(), onError()));
         waitForRx();
         assertResult();
@@ -168,10 +170,10 @@ public class LruObservableCache2Test {
     @Test
     public void flowableCompleteAfterRotation() throws Exception {
         disposables.add(flowable()
-                .compose(observableCache.cacheFlowable(KEY))
+                .compose(cachedService.flowable())
                 .subscribe(onNext(), onError()));
         rotate();
-        observableCache.<String>getFlowable(KEY).ifPresent(flowableFromCache -> disposables.add(flowableFromCache.subscribe(onNext(), onError())));
+        cachedService.cachedFlowable().ifPresent(flowableFromCache -> disposables.add(flowableFromCache.subscribe(onNext(), onError())));
         waitForRx();
         assertResult();
     }
@@ -179,7 +181,7 @@ public class LruObservableCache2Test {
     @Test
     public void flowableErrorCompleteBeforeRotation() throws Exception {
         disposables.add(flowableError()
-                .compose(observableCache.cacheFlowable(KEY))
+                .compose(cachedService.flowable())
                 .subscribe(onNext(), onError()));
         waitForRx();
         assertError();
@@ -188,10 +190,10 @@ public class LruObservableCache2Test {
     @Test
     public void flowableErrorCompleteAfterRotation() throws Exception {
         disposables.add(flowableError()
-                .compose(observableCache.cacheFlowable(KEY))
+                .compose(cachedService.flowable())
                 .subscribe(onNext(), onError()));
         rotate();
-        observableCache.<String>getFlowable(KEY).ifPresent(flowableFromCache -> disposables.add(flowableFromCache.subscribe(onNext(), onError())));
+        cachedService.cachedFlowable().ifPresent(flowableFromCache -> disposables.add(flowableFromCache.subscribe(onNext(), onError())));
         waitForRx();
         assertError();
     }
@@ -199,7 +201,7 @@ public class LruObservableCache2Test {
     @Test
     public void observableCompleteBeforeRotation() throws Exception {
         disposables.add(observable()
-                .compose(observableCache.cacheObservable(KEY))
+                .compose(cachedService.observable())
                 .subscribe(onNext(), onError()));
         waitForRx();
         assertResult();
@@ -208,10 +210,10 @@ public class LruObservableCache2Test {
     @Test
     public void observableCompleteAfterRotation() throws Exception {
         disposables.add(observable()
-                .compose(observableCache.cacheObservable(KEY))
+                .compose(cachedService.observable())
                 .subscribe(onNext(), onError()));
         rotate();
-        observableCache.<String>getObservable(KEY).ifPresent(observableFromCache -> disposables.add(observableFromCache.subscribe(onNext(), onError())));
+        cachedService.cachedObservable().ifPresent(observableFromCache -> disposables.add(observableFromCache.subscribe(onNext(), onError())));
         waitForRx();
         assertResult();
     }
@@ -219,7 +221,7 @@ public class LruObservableCache2Test {
     @Test
     public void observableErrorCompleteBeforeRotation() throws Exception {
         disposables.add(observableError()
-                .compose(observableCache.cacheObservable(KEY))
+                .compose(cachedService.observable())
                 .subscribe(onNext(), onError()));
         waitForRx();
         assertError();
@@ -228,10 +230,10 @@ public class LruObservableCache2Test {
     @Test
     public void observableErrorCompleteAfterRotation() throws Exception {
         disposables.add(observableError()
-                .compose(observableCache.cacheObservable(KEY))
+                .compose(cachedService.observable())
                 .subscribe(onNext(), onError()));
         rotate();
-        observableCache.<String>getObservable(KEY).ifPresent(observableFromCache -> disposables.add(observableFromCache.subscribe(onNext(), onError())));
+        cachedService.cachedObservable().ifPresent(observableFromCache -> disposables.add(observableFromCache.subscribe(onNext(), onError())));
         waitForRx();
         assertError();
     }
@@ -239,7 +241,7 @@ public class LruObservableCache2Test {
     @Test
     public void maybeCompleteBeforeRotation() throws Exception {
         disposables.add(maybe()
-                .compose(observableCache.cacheMaybe(KEY))
+                .compose(cachedService.maybe())
                 .subscribe(onNext(), onError()));
         waitForRx();
         assertResult();
@@ -248,10 +250,10 @@ public class LruObservableCache2Test {
     @Test
     public void maybeCompleteAfterRotation() throws Exception {
         disposables.add(maybe()
-                .compose(observableCache.cacheMaybe(KEY))
+                .compose(cachedService.maybe())
                 .subscribe(onNext(), onError()));
         rotate();
-        observableCache.<String>getMaybe(KEY).ifPresent(maybeFromCache -> disposables.add(maybeFromCache.subscribe(onNext(), onError())));
+        cachedService.cachedMaybe().ifPresent(maybeFromCache -> disposables.add(maybeFromCache.subscribe(onNext(), onError())));
         waitForRx();
         assertResult();
     }
@@ -259,7 +261,7 @@ public class LruObservableCache2Test {
     @Test
     public void maybeErrorCompleteBeforeRotation() throws Exception {
         disposables.add(maybeError()
-                .compose(observableCache.cacheMaybe(KEY))
+                .compose(cachedService.maybe())
                 .subscribe(onNext(), onError()));
         waitForRx();
         assertError();
@@ -268,10 +270,10 @@ public class LruObservableCache2Test {
     @Test
     public void maybeErrorCompleteAfterRotation() throws Exception {
         disposables.add(maybeError()
-                .compose(observableCache.cacheMaybe(KEY))
+                .compose(cachedService.maybe())
                 .subscribe(onNext(), onError()));
         rotate();
-        observableCache.<String>getMaybe(KEY).ifPresent(maybeFromCache -> disposables.add(maybeFromCache.subscribe(onNext(), onError())));
+        cachedService.cachedMaybe().ifPresent(maybeFromCache -> disposables.add(maybeFromCache.subscribe(onNext(), onError())));
         waitForRx();
         assertError();
     }
@@ -279,7 +281,7 @@ public class LruObservableCache2Test {
     @Test
     public void singleCompleteBeforeRotation() throws Exception {
         disposables.add(single()
-                .compose(observableCache.cacheSingle(KEY))
+                .compose(cachedService.single())
                 .subscribe(onNext(), onError()));
         waitForRx();
         assertResult();
@@ -288,10 +290,10 @@ public class LruObservableCache2Test {
     @Test
     public void singleCompleteAfterRotation() throws Exception {
         disposables.add(single()
-                .compose(observableCache.cacheSingle(KEY))
+                .compose(cachedService.single())
                 .subscribe(onNext(), onError()));
         rotate();
-        observableCache.<String>getSingle(KEY).ifPresent(singleFromCache -> disposables.add(singleFromCache.subscribe(onNext(), onError())));
+        cachedService.cachedSingle().ifPresent(singleFromCache -> disposables.add(singleFromCache.subscribe(onNext(), onError())));
         waitForRx();
         assertResult();
     }
@@ -299,7 +301,7 @@ public class LruObservableCache2Test {
     @Test
     public void singleErrorCompleteBeforeRotation() throws Exception {
         disposables.add(singleError()
-                .compose(observableCache.cacheSingle(KEY))
+                .compose(cachedService.single())
                 .subscribe(onNext(), onError()));
         waitForRx();
         assertError();
@@ -308,10 +310,10 @@ public class LruObservableCache2Test {
     @Test
     public void singleErrorCompleteAfterRotation() throws Exception {
         disposables.add(singleError()
-                .compose(observableCache.cacheSingle(KEY))
+                .compose(cachedService.single())
                 .subscribe(onNext(), onError()));
         rotate();
-        observableCache.<String>getSingle(KEY).ifPresent(singleFromCache -> disposables.add(singleFromCache.subscribe(onNext(), onError())));
+        cachedService.cachedSingle().ifPresent(singleFromCache -> disposables.add(singleFromCache.subscribe(onNext(), onError())));
         waitForRx();
         assertError();
     }
@@ -319,7 +321,7 @@ public class LruObservableCache2Test {
     @Test
     public void completableCompleteBeforeRotation() throws Exception {
         disposables.add(completable()
-                .compose(observableCache.cacheCompletable(KEY))
+                .compose(cachedService.completable())
                 .subscribe(onNextCompletable(), onError()));
         waitForRx();
         assertResultCompletable();
@@ -328,10 +330,10 @@ public class LruObservableCache2Test {
     @Test
     public void completableCompleteAfterRotation() throws Exception {
         disposables.add(completable()
-                .compose(observableCache.cacheCompletable(KEY))
+                .compose(cachedService.completable())
                 .subscribe(onNextCompletable(), onError()));
         rotate();
-        observableCache.<String>getCompletable(KEY).ifPresent(completableFromCache -> disposables.add(completableFromCache.subscribe(onNextCompletable(), onError())));
+        cachedService.cachedCompletable().ifPresent(completableFromCache -> disposables.add(completableFromCache.subscribe(onNextCompletable(), onError())));
         waitForRx();
         assertResultCompletable();
     }
@@ -339,7 +341,7 @@ public class LruObservableCache2Test {
     @Test
     public void completableErrorCompleteBeforeRotation() throws Exception {
         disposables.add(completableError()
-                .compose(observableCache.cacheCompletable(KEY))
+                .compose(cachedService.completable())
                 .subscribe(onNextCompletable(), onError()));
         waitForRx();
         assertErrorCompletable();
@@ -348,10 +350,10 @@ public class LruObservableCache2Test {
     @Test
     public void completableErrorCompleteAfterRotation() throws Exception {
         disposables.add(completableError()
-                .compose(observableCache.cacheCompletable(KEY))
+                .compose(cachedService.completable())
                 .subscribe(onNextCompletable(), onError()));
         rotate();
-        observableCache.<String>getCompletable(KEY).ifPresent(completableFromCache -> disposables.add(completableFromCache.subscribe(onNextCompletable(), onError())));
+        cachedService.cachedCompletable().ifPresent(completableFromCache -> disposables.add(completableFromCache.subscribe(onNextCompletable(), onError())));
         waitForRx();
         assertErrorCompletable();
     }

@@ -6,15 +6,13 @@ import android.support.annotation.Nullable;
  * Created by Aleksander Mielczarek on 29.10.2016.
  */
 
-public abstract class ValueFromCache<T, S extends ValueInCacheAction<T>> {
+public abstract class ValueFromCache<T, S extends ValueFromCache.ValueInCacheAction<T>> {
 
     @Nullable
     private final T valueFromCache;
-    private final AbstarctObservableCache observableCache;
 
-    protected ValueFromCache(@Nullable T valueFromCache, AbstarctObservableCache observableCache) {
+    protected ValueFromCache(@Nullable T valueFromCache) {
         this.valueFromCache = valueFromCache;
-        this.observableCache = observableCache;
     }
 
     public boolean isPresent() {
@@ -26,11 +24,14 @@ public abstract class ValueFromCache<T, S extends ValueInCacheAction<T>> {
         return valueFromCache;
     }
 
-    public ValueFromCache<T, S> ifPresent(S valueInCacheAction) {
+    public void ifPresent(S valueInCacheAction) {
         if (isPresent()) {
             valueInCacheAction.action(valueFromCache);
         }
-        return this;
+    }
+
+    public interface ValueInCacheAction<T> {
+        void action(T valueFromCache);
     }
 
 }

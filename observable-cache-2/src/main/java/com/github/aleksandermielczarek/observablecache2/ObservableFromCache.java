@@ -3,7 +3,6 @@ package com.github.aleksandermielczarek.observablecache2;
 import android.support.annotation.Nullable;
 
 import com.github.aleksandermielczarek.observablecache.api.ValueFromCache;
-import com.github.aleksandermielczarek.observablecache.api.ValueInCacheAction;
 
 import io.reactivex.Observable;
 
@@ -13,17 +12,16 @@ import io.reactivex.Observable;
 
 public final class ObservableFromCache<T> extends ValueFromCache<Observable<T>, ObservableFromCache.ObservableInCacheAction<T>> {
 
-    ObservableFromCache(@Nullable Observable<T> valueFromCache, ObservableCache observableCache) {
-        super(valueFromCache, observableCache);
+    ObservableFromCache(@Nullable Observable<T> valueFromCache) {
+        super(valueFromCache);
     }
 
     @Override
-    public ObservableFromCache<T> ifPresent(ObservableInCacheAction<T> valueInCacheAction) {
+    public void ifPresent(ObservableInCacheAction<T> valueInCacheAction) {
         super.ifPresent(valueInCacheAction);
-        return this;
     }
 
-    public interface ObservableInCacheAction<T> extends ValueInCacheAction<Observable<T>> {
+    public interface ObservableInCacheAction<T> extends ValueFromCache.ValueInCacheAction<Observable<T>> {
         @Override
         void action(Observable<T> observableFromCache);
     }

@@ -55,4 +55,9 @@ public class ObservableCacheServiceProcessor extends AbstractObservableCacheServ
         return "com.github.aleksandermielczarek.observablecache.service";
     }
 
+    @Override
+    protected String observableCacheClassName() {
+        return "AbstractObservableCache";
+    }
+
 }

@@ -11,9 +11,9 @@ import io.reactivex.SingleTransformer;
 public final class CacheableSingle<T> implements SingleTransformer<T, T> {
 
     private final String key;
-    private final ObservableCache observableCache;
+    private final AbstractObservableCache observableCache;
 
-    public CacheableSingle(String key, ObservableCache observableCache) {
+    public CacheableSingle(String key, AbstractObservableCache observableCache) {
         this.key = key;
         this.observableCache = observableCache;
     }

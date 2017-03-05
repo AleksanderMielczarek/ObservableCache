@@ -2,7 +2,7 @@ package com.github.aleksandermielczarek.observablecache2;
 
 import android.support.annotation.Nullable;
 
-import com.github.aleksandermielczarek.observablecache.api.AbstarctObservableCache;
+import com.github.aleksandermielczarek.observablecache.api.ObservableCache;
 
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Completable;
@@ -16,7 +16,7 @@ import io.reactivex.functions.Action;
  * Created by Aleksander Mielczarek on 09.02.2017.
  */
 
-public abstract class ObservableCache extends AbstarctObservableCache {
+public abstract class AbstractObservableCache implements ObservableCache {
 
     public abstract <T> void cache(String key, Flowable<T> flowable);
 
@@ -67,33 +67,33 @@ public abstract class ObservableCache extends AbstarctObservableCache {
 
     public <T> FlowableFromCache<T> getFlowable(String key) {
         Flowable<T> flowableFromCache = getFlowableFromCache(key);
-        return new FlowableFromCache<>(flowableFromCache, this);
+        return new FlowableFromCache<>(flowableFromCache);
     }
 
     public <T> ObservableFromCache<T> getObservable(String key) {
         Flowable<T> flowableFromCache = getFlowableFromCache(key);
         if (flowableFromCache != null) {
-            return new ObservableFromCache<>(flowableFromCache.toObservable(), this);
+            return new ObservableFromCache<>(flowableFromCache.toObservable());
         }
-        return new ObservableFromCache<>(null, this);
+        return new ObservableFromCache<>(null);
     }
 
     public <T> MaybeFromCache<T> getMaybe(String key) {
         Maybe<T> maybeFromCache = getMaybeFromCache(key);
-        return new MaybeFromCache<>(maybeFromCache, this);
+        return new MaybeFromCache<>(maybeFromCache);
     }
 
     public <T> SingleFromCache<T> getSingle(String key) {
         Single<T> singleFromCache = getSingleFromCache(key);
-        return new SingleFromCache<>(singleFromCache, this);
+        return new SingleFromCache<>(singleFromCache);
     }
 
     public CompletableFromCache getCompletable(String key) {
         Flowable<?> flowableFromCache = getFlowableFromCache(key);
         if (flowableFromCache != null) {
-            return new CompletableFromCache(flowableFromCache.ignoreElements(), this);
+            return new CompletableFromCache(flowableFromCache.ignoreElements());
         }
-        return new CompletableFromCache(null, this);
+        return new CompletableFromCache(null);
     }
 
     <T> Flowable<T> cacheFlowable(final String key, Flowable<T> flowable) {
@@ -114,7 +114,7 @@ public abstract class ObservableCache extends AbstarctObservableCache {
     }
 
     <T> Maybe<T> cacheMaybe(final String key, Maybe<T> maybe) {
-       Maybe<T> cached = maybe.cache().doAfterTerminate(new Action() {
+        Maybe<T> cached = maybe.cache().doAfterTerminate(new Action() {
             @Override
             public void run() throws Exception {
                 remove(key);
