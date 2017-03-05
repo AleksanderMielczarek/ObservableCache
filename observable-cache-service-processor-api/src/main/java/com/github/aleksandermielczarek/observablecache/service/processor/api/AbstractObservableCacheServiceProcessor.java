@@ -145,7 +145,7 @@ public abstract class AbstractObservableCacheServiceProcessor extends AbstractPr
                         .addStatement("this.$N = $N", "observableCache", "observableCache")
                         .build());
 
-        PackageElement packageElement = (PackageElement) observableCacheServiceInterfaceTypeElement.getEnclosingElement();
+        PackageElement packageElement = processingEnv.getElementUtils().getPackageOf(observableCacheServiceInterfaceTypeElement);
         JavaFile observableCacheServiceImplFile = JavaFile.builder(packageElement.getQualifiedName().toString(), builder.build()).build();
         try {
             observableCacheServiceImplFile.writeTo(processingEnv.getFiler());
@@ -168,7 +168,7 @@ public abstract class AbstractObservableCacheServiceProcessor extends AbstractPr
                 .ifPresent(methodToOverride -> {
                     MethodSpec.Builder methodBuilder = MethodSpec.overriding(methodToOverride, processingEnv.getTypeUtils().getDeclaredType(observableCacheServiceCreatorTypeElement), processingEnv.getTypeUtils());
                     services.forEach(service -> {
-                        PackageElement packageElement = (PackageElement) service.getEnclosingElement();
+                        PackageElement packageElement = processingEnv.getElementUtils().getPackageOf(service);
                         methodBuilder.beginControlFlow("if(arg0.equals($T.class))", TypeName.get(service.asType()))
                                 .addStatement("return (S) new $T(arg1)", ClassName.get(packageElement.getQualifiedName().toString(), service.getSimpleName() + "Impl"))
                                 .endControlFlow();
