@@ -34,7 +34,7 @@ Add the dependency
 
 ```groovy
 dependencies {
-    compile 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-1:1.1.1'
+    compile 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-1:1.1.2'
 }
 ```
 
@@ -137,8 +137,8 @@ Add to the dependencies
 
 ```groovy
 dependencies {
-    compile 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-1-service:1.1.1'
-    apt 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-service-1-processor:1.1.1'
+    compile 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-1-service:1.1.2'
+    apt 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-service-1-processor:1.1.2'
 }
 ```
 
@@ -265,7 +265,7 @@ Add the dependency
 
 ```groovy
 dependencies {
-    compile 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-2:1.1.1'
+    compile 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-2:1.1.2'
 }
 ```
 
@@ -279,8 +279,8 @@ Add to the dependencies
 
 ```groovy
 dependencies {
-    compile 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-2-service:1.1.1'
-    apt 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-service-2-processor:1.1.1'
+    compile 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-2-service:1.1.2'
+    apt 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-service-2-processor:1.1.2'
 }
 ```
 
@@ -289,6 +289,10 @@ dependencies {
 ProGuard is shipped with library.
 
 ## Changelog
+
+### 1.1.2 (2017-03-05)
+
+- change ifPresent method to void
 
 ### 1.1.1 (2017-03-03)
 
@@ -300,7 +304,7 @@ ProGuard is shipped with library.
 - add RxJava 2.x support
 - rename RxJava 1.x modules
 
-### 1.1.1 (2016-11-06)
+### 1.0.0 (2016-11-06)
 
 - add generator for caching interface
 
