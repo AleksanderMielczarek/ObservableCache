@@ -11,11 +11,11 @@ import io.reactivex.Single;
  * Created by Aleksander Mielczarek on 09.02.2017.
  */
 
-public final class LruObservableCache extends AbstractObservableCache {
+public final class LruObservableCache extends ObservableCache {
 
     public static final int DEFAULT_CACHE_SIZE = 16;
 
-    private static volatile AbstractObservableCache defaultInstance;
+    private static volatile ObservableCache defaultInstance;
 
     private final LruCache<String, Flowable<?>> flowables;
     private final LruCache<String, Single<?>> singles;
@@ -33,9 +33,9 @@ public final class LruObservableCache extends AbstractObservableCache {
         maybes = new LruCache<>(size);
     }
 
-    public static AbstractObservableCache getDefault() {
+    public static ObservableCache getDefault() {
         if (defaultInstance == null) {
-            synchronized (AbstractObservableCache.class) {
+            synchronized (ObservableCache.class) {
                 if (defaultInstance == null) {
                     defaultInstance = newInstance();
                 }
@@ -44,11 +44,11 @@ public final class LruObservableCache extends AbstractObservableCache {
         return defaultInstance;
     }
 
-    public static AbstractObservableCache newInstance() {
+    public static ObservableCache newInstance() {
         return new LruObservableCache();
     }
 
-    public static AbstractObservableCache newInstance(int size) {
+    public static ObservableCache newInstance(int size) {
         return new LruObservableCache(size);
     }
 

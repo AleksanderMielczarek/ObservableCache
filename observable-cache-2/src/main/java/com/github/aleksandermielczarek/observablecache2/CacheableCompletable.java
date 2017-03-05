@@ -11,9 +11,9 @@ import io.reactivex.CompletableTransformer;
 public final class CacheableCompletable implements CompletableTransformer {
 
     private final String key;
-    private final AbstractObservableCache observableCache;
+    private final ObservableCache observableCache;
 
-    public CacheableCompletable(String key, AbstractObservableCache observableCache) {
+    public CacheableCompletable(String key, ObservableCache observableCache) {
         this.key = key;
         this.observableCache = observableCache;
     }

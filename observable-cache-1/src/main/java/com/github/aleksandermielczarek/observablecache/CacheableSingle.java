@@ -9,9 +9,9 @@ import rx.Single;
 public final class CacheableSingle<T> implements Single.Transformer<T, T> {
 
     private final String key;
-    private final AbstractObservableCache observableCache;
+    private final ObservableCache observableCache;
 
-    public CacheableSingle(String key, AbstractObservableCache observableCache) {
+    public CacheableSingle(String key, ObservableCache observableCache) {
         this.key = key;
         this.observableCache = observableCache;
     }

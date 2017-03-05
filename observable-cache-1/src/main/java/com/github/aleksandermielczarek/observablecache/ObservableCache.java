@@ -2,7 +2,7 @@ package com.github.aleksandermielczarek.observablecache;
 
 import android.support.annotation.Nullable;
 
-import com.github.aleksandermielczarek.observablecache.api.ObservableCache;
+import com.github.aleksandermielczarek.observablecache.api.Cache;
 
 import rx.Completable;
 import rx.Observable;
@@ -13,7 +13,7 @@ import rx.functions.Action0;
  * Created by Aleksander Mielczarek on 29.10.2016.
  */
 
-public abstract class AbstractObservableCache implements ObservableCache {
+public abstract class ObservableCache implements Cache {
 
     public abstract <T> void cache(String key, Observable<T> observable);
 

@@ -11,9 +11,9 @@ import io.reactivex.ObservableTransformer;
 public final class CacheableObservable<T> implements ObservableTransformer<T, T> {
 
     private final String key;
-    private final AbstractObservableCache observableCache;
+    private final ObservableCache observableCache;
 
-    public CacheableObservable(String key, AbstractObservableCache observableCache) {
+    public CacheableObservable(String key, ObservableCache observableCache) {
         this.key = key;
         this.observableCache = observableCache;
     }

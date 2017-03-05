@@ -5,7 +5,7 @@ import android.databinding.ObservableField;
 import android.support.annotation.Nullable;
 
 import com.github.aleksandermielczarek.napkin.qualifier.ActivityContext;
-import com.github.aleksandermielczarek.observablecache.AbstractObservableCache;
+import com.github.aleksandermielczarek.observablecache.ObservableCache;
 import com.github.aleksandermielczarek.observablecacheexample.service.Cached1Service;
 import com.github.aleksandermielczarek.observablecacheexample.service.Observable1Service;
 
@@ -36,13 +36,13 @@ public class Observable1ViewModel {
     public final ObservableField<String> result = new ObservableField<>();
 
     private final Observable1Service observable1Service;
-    private final AbstractObservableCache observableCache;
+    private final ObservableCache observableCache;
     private final Cached1Service cached1Service;
     private final CompositeSubscription subscriptions = new CompositeSubscription();
     private final Context context;
 
     @Inject
-    public Observable1ViewModel(Observable1Service observable1Service, AbstractObservableCache observableCache, Cached1Service cached1Service, @ActivityContext Context context) {
+    public Observable1ViewModel(Observable1Service observable1Service, ObservableCache observableCache, Cached1Service cached1Service, @ActivityContext Context context) {
         this.observable1Service = observable1Service;
         this.observableCache = observableCache;
         this.cached1Service = cached1Service;

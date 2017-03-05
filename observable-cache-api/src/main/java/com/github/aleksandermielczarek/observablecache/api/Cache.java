@@ -4,7 +4,7 @@ package com.github.aleksandermielczarek.observablecache.api;
  * Created by Aleksander Mielczarek on 29.10.2016.
  */
 
-public interface ObservableCache {
+public interface Cache {
 
     boolean clear();
 

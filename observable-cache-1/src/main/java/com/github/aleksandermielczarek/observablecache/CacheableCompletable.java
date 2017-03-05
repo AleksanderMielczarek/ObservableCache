@@ -9,9 +9,9 @@ import rx.Completable;
 public final class CacheableCompletable implements Completable.Transformer {
 
     private final String key;
-    private final AbstractObservableCache observableCache;
+    private final ObservableCache observableCache;
 
-    public CacheableCompletable(String key, AbstractObservableCache observableCache) {
+    public CacheableCompletable(String key, ObservableCache observableCache) {
         this.key = key;
         this.observableCache = observableCache;
     }

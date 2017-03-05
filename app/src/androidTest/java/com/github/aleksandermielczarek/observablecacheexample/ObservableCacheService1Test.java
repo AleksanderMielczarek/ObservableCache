@@ -2,7 +2,7 @@ package com.github.aleksandermielczarek.observablecacheexample;
 
 import android.support.test.runner.AndroidJUnit4;
 
-import com.github.aleksandermielczarek.observablecache.AbstractObservableCache;
+import com.github.aleksandermielczarek.observablecache.ObservableCache;
 import com.github.aleksandermielczarek.observablecache.LruObservableCache;
 import com.github.aleksandermielczarek.observablecache.service.ObservableCacheService;
 
@@ -36,7 +36,7 @@ public class ObservableCacheService1Test {
     public static final String RESULT = "result";
     public static final String ERROR = "error";
 
-    private final AbstractObservableCache observableCache = LruObservableCache.newInstance();
+    private final ObservableCache observableCache = LruObservableCache.newInstance();
     private final ObservableCacheService observableCacheService = new ObservableCacheService(observableCache);
     private final Cached1Service cachedService = observableCacheService.createObservableCacheService(Cached1Service.class);
     private final AtomicReference<String> result = new AtomicReference<>();

@@ -1,13 +1,13 @@
 package com.github.aleksandermielczarek.observablecache.service.api;
 
 
-import com.github.aleksandermielczarek.observablecache.api.ObservableCache;
+import com.github.aleksandermielczarek.observablecache.api.Cache;
 
 /**
  * Created by Aleksander Mielczarek on 30.10.2016.
  */
 
-public abstract class AbstractObservableCacheService<T extends ObservableCache> {
+public abstract class AbstractObservableCacheService<T extends Cache> {
 
     private static final String ERROR_MESSAGE = "Cannot create ObservableCacheServiceCreatorImpl";
 

@@ -70,7 +70,7 @@ public class ObservableCacheServiceProcessor extends AbstractObservableCacheServ
 
     @Override
     protected String observableCacheClassName() {
-        return "AbstractObservableCache";
+        return "ObservableCache";
     }
 
 }

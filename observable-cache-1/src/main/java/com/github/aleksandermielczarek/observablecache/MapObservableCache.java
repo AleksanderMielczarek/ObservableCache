@@ -11,9 +11,9 @@ import rx.Observable;
  * Created by Aleksander Mielczarek on 30.10.2016.
  */
 
-public final class MapObservableCache extends AbstractObservableCache {
+public final class MapObservableCache extends ObservableCache {
 
-    private static volatile AbstractObservableCache defaultInstance;
+    private static volatile ObservableCache defaultInstance;
 
     private final Map<String, Observable<?>> observables;
 
@@ -25,9 +25,9 @@ public final class MapObservableCache extends AbstractObservableCache {
         observables = new HashMap<>(size);
     }
 
-    public static AbstractObservableCache getDefault() {
+    public static ObservableCache getDefault() {
         if (defaultInstance == null) {
-            synchronized (AbstractObservableCache.class) {
+            synchronized (ObservableCache.class) {
                 if (defaultInstance == null) {
                     defaultInstance = newInstance();
                 }
@@ -36,11 +36,11 @@ public final class MapObservableCache extends AbstractObservableCache {
         return defaultInstance;
     }
 
-    public static AbstractObservableCache newInstance() {
+    public static ObservableCache newInstance() {
         return new MapObservableCache();
     }
 
-    public static AbstractObservableCache newInstance(int size) {
+    public static ObservableCache newInstance(int size) {
         return new MapObservableCache(size);
     }
 

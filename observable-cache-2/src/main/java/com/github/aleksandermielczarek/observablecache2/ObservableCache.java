@@ -2,7 +2,7 @@ package com.github.aleksandermielczarek.observablecache2;
 
 import android.support.annotation.Nullable;
 
-import com.github.aleksandermielczarek.observablecache.api.ObservableCache;
+import com.github.aleksandermielczarek.observablecache.api.Cache;
 
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Completable;
@@ -16,7 +16,7 @@ import io.reactivex.functions.Action;
  * Created by Aleksander Mielczarek on 09.02.2017.
  */
 
-public abstract class AbstractObservableCache implements ObservableCache {
+public abstract class ObservableCache implements Cache {
 
     public abstract <T> void cache(String key, Flowable<T> flowable);
 
