@@ -61,27 +61,27 @@ public final class MapObservableCache extends ObservableCache {
     }
 
     @Override
-    public <T> void cache(String key, Flowable<T> flowable) {
+    protected <T> void cache(String key, Flowable<T> flowable) {
         flowables.put(key, flowable);
     }
 
     @Override
-    public <T> void cache(String key, Observable<T> observable) {
+    protected <T> void cache(String key, Observable<T> observable) {
         observables.put(key, observable);
     }
 
     @Override
-    public <T> void cache(String key, Single<T> single) {
+    protected <T> void cache(String key, Single<T> single) {
         singles.put(key, single);
     }
 
     @Override
-    public void cache(String key, Completable completable) {
+    protected void cache(String key, Completable completable) {
         completables.put(key, completable);
     }
 
     @Override
-    public <T> void cache(String key, Maybe<T> maybe) {
+    protected <T> void cache(String key, Maybe<T> maybe) {
         maybes.put(key, maybe);
     }
 

@@ -17,15 +17,15 @@ import io.reactivex.functions.Action;
 
 public abstract class ObservableCache implements Cache {
 
-    public abstract <T> void cache(String key, Flowable<T> flowable);
+    protected abstract <T> void cache(String key, Flowable<T> flowable);
 
-    public abstract <T> void cache(String key, Observable<T> observable);
+    protected abstract <T> void cache(String key, Observable<T> observable);
 
-    public abstract <T> void cache(String key, Single<T> single);
+    protected abstract <T> void cache(String key, Single<T> single);
 
-    public abstract void cache(String key, Completable completable);
+    protected abstract void cache(String key, Completable completable);
 
-    public abstract <T> void cache(String key, Maybe<T> maybe);
+    protected abstract <T> void cache(String key, Maybe<T> maybe);
 
     @Nullable
     protected abstract <T> Flowable<T> getFlowableFromCache(String key);

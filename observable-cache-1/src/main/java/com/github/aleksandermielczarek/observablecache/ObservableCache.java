@@ -15,9 +15,9 @@ import rx.functions.Action0;
 
 public abstract class ObservableCache implements Cache {
 
-    public abstract <T> void cache(String key, Observable<T> observable);
+    protected abstract <T> void cache(String key, Observable<T> observable);
 
-    public abstract <T> void cache(String key, Single<T> single);
+    protected abstract <T> void cache(String key, Single<T> single);
 
     @Nullable
     protected abstract <T> Observable<T> getObservableFromCache(String key);
@@ -25,7 +25,7 @@ public abstract class ObservableCache implements Cache {
     @Nullable
     protected abstract <T> Single<T> getSingleFromCache(String key);
 
-    public void cache(String key, Completable completable){
+    private void cache(String key, Completable completable) {
         Observable<?> observable = completable.toObservable();
         cache(key, observable);
     }

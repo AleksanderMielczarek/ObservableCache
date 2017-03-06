@@ -49,12 +49,12 @@ public final class MapObservableCache extends ObservableCache {
     }
 
     @Override
-    public <T> void cache(String key, Observable<T> observable) {
+    protected <T> void cache(String key, Observable<T> observable) {
         observables.put(key, observable);
     }
 
     @Override
-    public <T> void cache(String key, Single<T> single) {
+    protected <T> void cache(String key, Single<T> single) {
         singles.put(key, single);
     }
 
