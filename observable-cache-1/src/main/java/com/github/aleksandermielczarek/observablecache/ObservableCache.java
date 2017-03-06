@@ -17,19 +17,17 @@ public abstract class ObservableCache implements Cache {
 
     public abstract <T> void cache(String key, Observable<T> observable);
 
+    public abstract <T> void cache(String key, Single<T> single);
+
     @Nullable
-    protected abstract <T> Observable<T> getFromCache(String key);
+    protected abstract <T> Observable<T> getObservableFromCache(String key);
 
-    public <T> Single<T> cache(String key, Single<T> single) {
-        Observable<T> observable = single.toObservable();
-        cache(key, observable);
-        return observable.toSingle();
-    }
+    @Nullable
+    protected abstract <T> Single<T> getSingleFromCache(String key);
 
-    public Completable cache(String key, Completable completable) {
+    public void cache(String key, Completable completable){
         Observable<?> observable = completable.toObservable();
         cache(key, observable);
-        return observable.toCompletable();
     }
 
     public <T> CacheableObservable<T> cacheObservable(String key) {
@@ -45,20 +43,17 @@ public abstract class ObservableCache implements Cache {
     }
 
     public <T> ObservableFromCache<T> getObservable(String key) {
-        Observable<T> observableFromCache = getFromCache(key);
+        Observable<T> observableFromCache = getObservableFromCache(key);
         return new ObservableFromCache<>(observableFromCache);
     }
 
     public <T> SingleFromCache<T> getSingle(String key) {
-        Observable<T> observableFromCache = getFromCache(key);
-        if (observableFromCache != null) {
-            return new SingleFromCache<>(observableFromCache.toSingle());
-        }
-        return new SingleFromCache<>(null);
+        Single<T> singleFromCache = getSingleFromCache(key);
+        return new SingleFromCache<>(singleFromCache);
     }
 
     public CompletableFromCache getCompletable(String key) {
-        Observable<?> observableFromCache = getFromCache(key);
+        Observable<?> observableFromCache = getObservableFromCache(key);
         if (observableFromCache != null) {
             return new CompletableFromCache(observableFromCache.toCompletable());
         }
@@ -76,10 +71,15 @@ public abstract class ObservableCache implements Cache {
         return cached;
     }
 
-    <T> Single<T> cacheSingle(String key, Single<T> single) {
-        Observable<T> observable = single.toObservable();
-        Observable<T> cachedObservable = cacheObservable(key, observable);
-        return cachedObservable.toSingle();
+    <T> Single<T> cacheSingle(final String key, Single<T> single) {
+        Single<T> cached = single.cache().doAfterTerminate(new Action0() {
+            @Override
+            public void call() {
+                remove(key);
+            }
+        });
+        cache(key, cached);
+        return cached;
     }
 
     Completable cacheCompletable(String key, Completable completable) {
