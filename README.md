@@ -34,7 +34,7 @@ Add the dependency
 
 ```groovy
 dependencies {
-    compile 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-1:1.1.2'
+    compile 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-1:1.2.0'
 }
 ```
 
@@ -137,8 +137,8 @@ Add to the dependencies
 
 ```groovy
 dependencies {
-    compile 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-1-service:1.1.2'
-    apt 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-service-1-processor:1.1.2'
+    compile 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-1-service:1.2.0'
+    apt 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-service-1-processor:1.2.0'
 }
 ```
 
@@ -265,7 +265,7 @@ Add the dependency
 
 ```groovy
 dependencies {
-    compile 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-2:1.1.2'
+    compile 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-2:1.2.0'
 }
 ```
 
@@ -279,8 +279,8 @@ Add to the dependencies
 
 ```groovy
 dependencies {
-    compile 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-2-service:1.1.2'
-    apt 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-service-2-processor:1.1.2'
+    compile 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-2-service:1.2.0'
+    apt 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-service-2-processor:1.2.0'
 }
 ```
 
@@ -289,6 +289,10 @@ dependencies {
 ProGuard is shipped with library.
 
 ## Changelog
+
+### 1.2.0 (2017-03-06)
+
+- simplify API
 
 ### 1.1.2 (2017-03-05)
 
