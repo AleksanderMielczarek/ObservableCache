@@ -305,7 +305,6 @@ dependencies {
 ### 1.1.1 (2017-03-03)
 
 - fix issue that does not remove Single and Maybe from cache
-- add ProGuard rules to library
 
 ### 1.1.0 (2017-02-10)
 
