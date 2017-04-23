@@ -138,7 +138,7 @@ Add to the dependencies
 ```groovy
 dependencies {
     compile 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-1-service:1.2.0'
-    apt 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-service-1-processor:1.2.0'
+    annotationProcessor 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-1-service-processor:1.2.0'
 }
 ```
 
@@ -221,7 +221,9 @@ must be the same as method for caching values + word 'remove':
 
 ### ProGuard
 
-ProGuard is shipped with library.
+```
+-keep class com.github.aleksandermielczarek.observablecache.service.ObservableCacheServiceCreatorImpl
+```
 
 ## RxJava 2.x
 
@@ -280,13 +282,15 @@ Add to the dependencies
 ```groovy
 dependencies {
     compile 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-2-service:1.2.0'
-    apt 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-service-2-processor:1.2.0'
+    annotationProcessor 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-2-service-processor:1.2.0'
 }
 ```
 
 ### ProGuard
 
-ProGuard is shipped with library.
+```
+-keep class com.github.aleksandermielczarek.observablecache2.service.ObservableCacheServiceCreatorImpl
+```
 
 ## Changelog
 
