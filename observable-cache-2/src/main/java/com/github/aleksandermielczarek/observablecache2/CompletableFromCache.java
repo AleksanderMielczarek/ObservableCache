@@ -15,4 +15,13 @@ public final class CompletableFromCache extends ValueFromCache<Completable> {
     CompletableFromCache(@Nullable Completable valueFromCache) {
         super(valueFromCache);
     }
+
+    public static CompletableFromCache empty() {
+        return new CompletableFromCache(null);
+    }
+
+    public static CompletableFromCache of(@Nullable Completable valueFromCache) {
+        return new CompletableFromCache(valueFromCache);
+    }
+
 }

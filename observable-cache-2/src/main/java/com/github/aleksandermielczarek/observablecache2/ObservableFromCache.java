@@ -16,4 +16,12 @@ public final class ObservableFromCache<T> extends ValueFromCache<Observable<T>> 
         super(valueFromCache);
     }
 
+    public static <T> ObservableFromCache<T> empty() {
+        return new ObservableFromCache<>(null);
+    }
+
+    public static <T> ObservableFromCache<T> of(@Nullable Observable<T> valueFromCache) {
+        return new ObservableFromCache<>(valueFromCache);
+    }
+
 }

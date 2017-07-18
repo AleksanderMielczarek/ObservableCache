@@ -16,4 +16,12 @@ public final class SingleFromCache<T> extends ValueFromCache<Single<T>> {
         super(valueFromCache);
     }
 
+    public static <T> SingleFromCache<T> empty() {
+        return new SingleFromCache<>(null);
+    }
+
+    public static <T> SingleFromCache<T> of(@Nullable Single<T> valueFromCache) {
+        return new SingleFromCache<>(valueFromCache);
+    }
+
 }

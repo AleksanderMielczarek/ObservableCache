@@ -16,4 +16,12 @@ public final class FlowableFromCache<T> extends ValueFromCache<Flowable<T>> {
         super(valueFromCache);
     }
 
+    public static <T> FlowableFromCache<T> empty() {
+        return new FlowableFromCache<>(null);
+    }
+
+    public static <T> FlowableFromCache<T> of(@Nullable Flowable<T> valueFromCache) {
+        return new FlowableFromCache<>(valueFromCache);
+    }
+
 }

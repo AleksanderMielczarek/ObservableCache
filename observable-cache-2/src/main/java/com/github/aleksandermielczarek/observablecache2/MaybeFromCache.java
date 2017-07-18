@@ -16,4 +16,12 @@ public final class MaybeFromCache<T> extends ValueFromCache<Maybe<T>> {
         super(valueFromCache);
     }
 
+    public static <T> MaybeFromCache<T> empty() {
+        return new MaybeFromCache<>(null);
+    }
+
+    public static <T> MaybeFromCache<T> of(@Nullable Maybe<T> valueFromCache) {
+        return new MaybeFromCache<>(valueFromCache);
+    }
+
 }
