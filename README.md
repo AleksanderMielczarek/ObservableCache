@@ -34,7 +34,7 @@ Add the dependency
 
 ```groovy
 dependencies {
-    compile 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-1:1.2.0'
+    compile 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-1:1.2.1'
 }
 ```
 
@@ -137,8 +137,8 @@ Add to the dependencies
 
 ```groovy
 dependencies {
-    compile 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-1-service:1.2.0'
-    annotationProcessor 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-1-service-processor:1.2.0'
+    compile 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-1-service:1.2.1'
+    annotationProcessor 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-1-service-processor:1.2.1'
 }
 ```
 
@@ -267,7 +267,7 @@ Add the dependency
 
 ```groovy
 dependencies {
-    compile 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-2:1.2.0'
+    compile 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-2:1.2.1'
 }
 ```
 
@@ -281,8 +281,8 @@ Add to the dependencies
 
 ```groovy
 dependencies {
-    compile 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-2-service:1.2.0'
-    annotationProcessor 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-2-service-processor:1.2.0'
+    compile 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-2-service:1.2.1'
+    annotationProcessor 'com.github.AleksanderMielczarek.ObservableCache:observable-cache-2-service-processor:1.2.1'
 }
 ```
 
@@ -293,6 +293,10 @@ dependencies {
 ```
 
 ## Changelog
+
+### 1.2.1 (2017-07-18)
+
+- add static factory methods to values from cache
 
 ### 1.2.0 (2017-03-06)
 
