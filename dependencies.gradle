@@ -9,7 +9,7 @@ ext {
 
     toolsBuildGradleVersion = '2.3.3'
     gradleRetrolambdaVersion = '3.6.1'
-    gradleVersionsPluginVersion = '0.14.0'
+    gradleVersionsPluginVersion = '0.15.0'
     androidMavenGradlePluginVersion = '1.5'
 
     espressoCoreVersion = '2.2.2'
