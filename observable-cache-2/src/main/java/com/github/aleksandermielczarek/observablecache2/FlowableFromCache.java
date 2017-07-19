@@ -12,12 +12,16 @@ import io.reactivex.Flowable;
 
 public final class FlowableFromCache<T> extends ValueFromCache<Flowable<T>> {
 
-    FlowableFromCache(@Nullable Flowable<T> valueFromCache) {
+    public FlowableFromCache() {
+        this(null);
+    }
+
+    public FlowableFromCache(@Nullable Flowable<T> valueFromCache) {
         super(valueFromCache);
     }
 
     public static <T> FlowableFromCache<T> empty() {
-        return new FlowableFromCache<>(null);
+        return new FlowableFromCache<>();
     }
 
     public static <T> FlowableFromCache<T> of(@Nullable Flowable<T> valueFromCache) {

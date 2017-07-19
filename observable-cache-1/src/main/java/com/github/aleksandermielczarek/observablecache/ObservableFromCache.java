@@ -11,12 +11,16 @@ import rx.Observable;
  */
 public final class ObservableFromCache<T> extends ValueFromCache<Observable<T>> {
 
-    ObservableFromCache(@Nullable Observable<T> valueFromCache) {
+    public ObservableFromCache() {
+        this(null);
+    }
+
+    public ObservableFromCache(@Nullable Observable<T> valueFromCache) {
         super(valueFromCache);
     }
 
     public static <T> ObservableFromCache<T> empty() {
-        return new ObservableFromCache<>(null);
+        return new ObservableFromCache<>();
     }
 
     public static <T> ObservableFromCache<T> of(@Nullable Observable<T> valueFromCache) {

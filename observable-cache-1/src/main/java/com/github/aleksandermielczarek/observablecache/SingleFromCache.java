@@ -11,12 +11,16 @@ import rx.Single;
  */
 public final class SingleFromCache<T> extends ValueFromCache<Single<T>> {
 
-    SingleFromCache(@Nullable Single<T> valueFromCache) {
+    public SingleFromCache() {
+        this(null);
+    }
+
+    public SingleFromCache(@Nullable Single<T> valueFromCache) {
         super(valueFromCache);
     }
 
     public static <T> SingleFromCache<T> empty() {
-        return new SingleFromCache<>(null);
+        return new SingleFromCache<>();
     }
 
     public static <T> SingleFromCache<T> of(@Nullable Single<T> valueFromCache) {

@@ -12,12 +12,16 @@ import io.reactivex.Maybe;
 
 public final class MaybeFromCache<T> extends ValueFromCache<Maybe<T>> {
 
-    MaybeFromCache(@Nullable Maybe<T> valueFromCache) {
+    public MaybeFromCache() {
+        this(null);
+    }
+
+    public MaybeFromCache(@Nullable Maybe<T> valueFromCache) {
         super(valueFromCache);
     }
 
     public static <T> MaybeFromCache<T> empty() {
-        return new MaybeFromCache<>(null);
+        return new MaybeFromCache<>();
     }
 
     public static <T> MaybeFromCache<T> of(@Nullable Maybe<T> valueFromCache) {

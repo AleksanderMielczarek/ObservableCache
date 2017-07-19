@@ -12,12 +12,16 @@ import io.reactivex.Completable;
 
 public final class CompletableFromCache extends ValueFromCache<Completable> {
 
-    CompletableFromCache(@Nullable Completable valueFromCache) {
+    public CompletableFromCache() {
+        this(null);
+    }
+
+    public CompletableFromCache(@Nullable Completable valueFromCache) {
         super(valueFromCache);
     }
 
     public static CompletableFromCache empty() {
-        return new CompletableFromCache(null);
+        return new CompletableFromCache();
     }
 
     public static CompletableFromCache of(@Nullable Completable valueFromCache) {

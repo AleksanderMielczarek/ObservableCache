@@ -11,7 +11,7 @@ public abstract class ValueFromCache<T> {
     @Nullable
     private final T valueFromCache;
 
-    protected ValueFromCache(@Nullable T valueFromCache) {
+    public ValueFromCache(@Nullable T valueFromCache) {
         this.valueFromCache = valueFromCache;
     }
 
